@@ -13,6 +13,7 @@
 //  PARTICULAR PURPOSE.
 // =====================================================================
 
+using CrmCross.Authentication;
 using Newtonsoft.Json;      // Used in the REST methods
 using Newtonsoft.Json.Linq; // Used in the REST methods
 using System;
@@ -43,28 +44,79 @@ using System.Xml.Linq;
 // due to the language differences.
 // For more information about Sdk.Soap.js, see http://code.msdn.microsoft.com/SdkSoapjs-9b51b99a
 
-namespace PortableCrmSdk
+namespace CrmCross
 {
-    public class OrganizationDataWebServiceProxy
+    public class OrganizationDataWebServiceProxy : IOrganizationService
     {
         #region class members
+
+        IAuthenticationTokenProvider _authenticationTokenProvider = null;
 
         private const string webEndpoint = "/XRMServices/2011/Organization.svc/web";
         private const string restEndpoint = "/XRMServices/2011/OrganizationData.svc/";
 
         public string ServiceUrl;
-        public string AccessToken; // can be private, but not sure if user want to access it.
+        //  public string AccessToken; // can be private, but not sure if user want to access it.
         public Guid CallerId;
-        public int Timeout;
+        public int TimeoutInSeconds;
 
         static private IEnumerable<TypeInfo> types;
 
         #endregion class members
 
-        #region Soap Methods
+        public OrganizationDataWebServiceProxy(IAuthenticationTokenProvider authenticationTokenProvider)
+        {
+            if (_authenticationTokenProvider == null)
+            {
+                throw new ArgumentNullException("authenticationTokenProvider");
+            }
+            _authenticationTokenProvider = authenticationTokenProvider;
+        }
+
+        #region IOrganizationService Soap Methods
 
         // Provide same methods as IOrganizationService with same parameter and types
         // so that developer can use this class without confusion.
+
+        public void Associate(string entityName, Guid entityId, Relationship relationship, EntityReferenceCollection relatedEntities)
+        {
+            AsyncHelper.RunSync(() => AssociateAsync(entityName, entityId, relationship, relatedEntities));
+        }
+
+        public Guid Create(Entity entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(string entityName, Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Disassociate(string entityName, Guid entityId, Relationship relationship, EntityReferenceCollection relatedEntities)
+        {
+            throw new NotImplementedException();
+        }
+
+        public OrganizationResponse Execute(OrganizationRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Entity Retrieve(string entityName, Guid id, ColumnSet columnSet)
+        {
+            throw new NotImplementedException();
+        }
+
+        public EntityCollection RetrieveMultiple(QueryBase query)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(Entity entity)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Creates a link between records.
@@ -73,8 +125,7 @@ namespace PortableCrmSdk
         /// <param name="entityId">The ID of the record to which the related records are associated.</param>
         /// <param name="relationship">The name of the relationship to be used to create the link.</param>
         /// <param name="relatedEntities">A collection of entity references (references to records) to be associated.</param>
-        public async Task Associate(string entityName, Guid entityId, Relationship relationship,
-            EntityReferenceCollection relatedEntities)
+        public async Task AssociateAsync(string entityName, Guid entityId, Relationship relationship, EntityReferenceCollection relatedEntities)
         {
             // Create HttpClient with Compression enabled.
             using (HttpClient httpClient = new HttpClient(new HttpClientHandler() { AutomaticDecompression = System.Net.DecompressionMethods.GZip }))
@@ -116,7 +167,7 @@ namespace PortableCrmSdk
         /// </summary>
         /// <param name="entity">An entity instance that contains the properties to set in the newly created record.</param>
         /// <returns>The ID of the newly created record.</returns>
-        public async Task<Guid> Create(Entity entity)
+        public async Task<Guid> CreateAsync(Entity entity)
         {
             // Create HttpClient with Compression enabled.
             using (HttpClient httpClient = new HttpClient(new HttpClientHandler() { AutomaticDecompression = System.Net.DecompressionMethods.GZip }))
@@ -163,7 +214,7 @@ namespace PortableCrmSdk
         /// </summary>
         /// <param name="entityName">The logical name of the entity that is specified in the entityId parameter.</param>
         /// <param name="id">The ID of the record that you want to delete.</param>
-        public async Task Delete(string entityName, Guid id)
+        public async Task DeleteAsync(string entityName, Guid id)
         {
             // Create HttpClient with Compression enabled.
             using (HttpClient httpClient = new HttpClient(new HttpClientHandler() { AutomaticDecompression = System.Net.DecompressionMethods.GZip }))
@@ -205,7 +256,7 @@ namespace PortableCrmSdk
         /// <param name="entityId">The ID of the record from which the related records are disassociated.</param>
         /// <param name="relationship">The name of the relationship to be used to remove the link.</param>
         /// <param name="relatedEntities">A collection of entity references (references to records) to be disassociated.</param>
-        public async Task Disassociate(string entityName, Guid entityId, Relationship relationship,
+        public async Task DisassociateAsync(string entityName, Guid entityId, Relationship relationship,
             EntityReferenceCollection relatedEntities)
         {
             // Create HttpClient with Compression enabled.
@@ -251,7 +302,7 @@ namespace PortableCrmSdk
         /// <param name="request">A request instance that defines the action to be performed.</param>
         /// <returns>The response from the request. You must cast the return value of this method to 
         /// the specific instance of the response that corresponds to the Request parameter.</returns>
-        public async Task<OrganizationResponse> Execute(OrganizationRequest request)
+        public async Task<OrganizationResponse> ExecuteAsync(OrganizationRequest request)
         {
             // Create HttpClient with Compression enabled.
             using (HttpClient httpClient = new HttpClient(new HttpClientHandler() { AutomaticDecompression = System.Net.DecompressionMethods.GZip }))
@@ -296,7 +347,7 @@ namespace PortableCrmSdk
         /// <param name="id">The ID of the record that you want to retrieve.</param>
         /// <param name="columnSet">A query that specifies the set of columns, or attributes, to retrieve.</param>
         /// <returns>The requested entity. If EnableProxyTypes called, returns early bound type.</returns>
-        public async Task<Entity> Retrieve(string entityName, Guid id, ColumnSet columnSet)
+        public async Task<Entity> RetrieveAsync(string entityName, Guid id, ColumnSet columnSet)
         {
             // Create HttpClient with Compression enabled.
             using (HttpClient httpClient = new HttpClient(new HttpClientHandler() { AutomaticDecompression = System.Net.DecompressionMethods.GZip }))
@@ -338,9 +389,9 @@ namespace PortableCrmSdk
                     else
                         throw new Exception(httpResponse.Content.ReadAsStringAsync().Result);
                 }
-                
+
                 // If Entity if not casted yet, then try to cast to early-bound
-                if(Entity.GetType().Equals(typeof(Entity)))
+                if (Entity.GetType().Equals(typeof(Entity)))
                     Entity = ConvertToEarlyBound(Entity);
 
                 return Entity;
@@ -351,7 +402,7 @@ namespace PortableCrmSdk
         /// </summary>
         /// <param name="query">A query that determines the set of records to retrieve.</param>
         /// <returns>The collection of entities returned from the query. If EnableProxyTypes called, returns early bound type.</returns>
-        public async Task<EntityCollection> RetrieveMultiple(QueryBase query)
+        public async Task<EntityCollection> RetrieveMultipleAsync(QueryBase query)
         {
             // Create HttpClient with Compression enabled.
             using (HttpClient httpClient = new HttpClient(new HttpClientHandler() { AutomaticDecompression = System.Net.DecompressionMethods.GZip }))
@@ -399,7 +450,7 @@ namespace PortableCrmSdk
         /// Updates an existing record.
         /// </summary>
         /// <param name="entity">An entity instance that has one or more properties set to be updated in the record.</param>
-        public async Task Update(Entity entity)
+        public async Task UpdateAsync(Entity entity)
         {
             // Create HttpClient with Compression enabled.
             using (HttpClient httpClient = new HttpClient(new HttpClientHandler() { AutomaticDecompression = System.Net.DecompressionMethods.GZip }))
@@ -460,7 +511,9 @@ namespace PortableCrmSdk
                 string ODataAction = entity.GetType().GetRuntimeField("SchemaName").ToString() + "Set";
 
                 // Build and send the HTTP request.
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
+                var accessToken = await GetAccessToken();
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // Use PostAsync to Post data.
@@ -496,7 +549,9 @@ namespace PortableCrmSdk
                 string ODataAction = schemaName + "Set(guid'" + id + "')";
 
                 // Build and send the HTTP request.
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
+                var accessToken = await GetAccessToken();
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // Use DeleteAsync to Post data.
@@ -528,8 +583,10 @@ namespace PortableCrmSdk
                 // The URL for the OData organization web service.
                 string ODataAction = schemaName + "Set(guid'" + id + "')?$select=" + select.ToString().Remove(0, 1) + "";
 
-                // Build and send the HTTP request.            
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
+                // Build and send the HTTP request.          
+                var accessToken = await GetAccessToken();
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // Wait for the web service response.
@@ -579,7 +636,9 @@ namespace PortableCrmSdk
                 string ODataAction = schemaName + "Set?$select=" + select.ToString().Remove(0, 1) + "";
 
                 // Build and send the HTTP request.
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
+                var accessToken = await GetAccessToken();
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // Wait for the web service response.
@@ -637,7 +696,8 @@ namespace PortableCrmSdk
                 string ODataAction = entity.GetType().GetRuntimeField("SchemaName").ToString() + "Set(guid'" + entity.Id + "')";
 
                 // Build and send the HTTP request.
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
+                var accessToken = await GetAccessToken();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
                 // Specify MERGE to update record
                 httpClient.DefaultRequestHeaders.Add("X-HTTP-Method", "MERGE");
 
@@ -687,11 +747,12 @@ namespace PortableCrmSdk
         private async Task<HttpResponseMessage> SendRequest(HttpClient httpClient, string SOAPAction, string content)
         {
             // Set the HTTP authorization header using the access token.
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));           
-            
-            if (Timeout > 0)
-                httpClient.Timeout = new TimeSpan(0, 0, 0, Timeout, 0);
+            var accessToken = await GetAccessToken();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            if (TimeoutInSeconds > 0)
+                httpClient.Timeout = new TimeSpan(0, 0, 0, TimeoutInSeconds, 0);
             // Finish setting up the HTTP request.
             HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, ServiceUrl + webEndpoint);
             req.Headers.Add("SOAPAction", SOAPAction);
@@ -742,7 +803,16 @@ namespace PortableCrmSdk
         }
 
         #endregion helpercode
+
+        protected virtual async Task<string> GetAccessToken()
+        {
+            var tokenResult = await _authenticationTokenProvider.GetAuthenticateTokenAsync();
+            return tokenResult.AccessToken;
+        }
+
+
     }
+
     public enum EntityRole
     {
         Referenced = 1,
@@ -838,14 +908,15 @@ namespace PortableCrmSdk
         public bool IsComputed { get; set; }
         public string MappingName { get; set; }
         public int SyncDirection { get; set; }
-        public AttributeMapping() 
+        public AttributeMapping()
         {
             ComputedProperties = new DataCollection<string>();
         }
         public AttributeMapping(Guid attributeMappingId, string mappingName, string attributeCrmName,
             string attributeExchangeName, int entityTypeCode, int syncDirection, int defaultSyncDirection,
             int allowedSyncDirection, bool isComputed, DataCollection<string> computedProperties,
-            string attributeCrmDisplayName, string attributeExchangeDisplayName) : base()
+            string attributeCrmDisplayName, string attributeExchangeDisplayName)
+            : base()
         {
             this.AttributeMappingId = attributeMappingId;
             this.MappingName = mappingName;
@@ -1106,14 +1177,14 @@ namespace PortableCrmSdk
                 {
                     return (T)this.Attributes[attributeLogicalName];
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     return default(T);
                 }
             }
             // If value not exist yet, return default value.
             else
-                return default(T);            
+                return default(T);
         }
         protected virtual string GetFormattedAttributeValue(string attributeLogicalName)
         {
@@ -1163,7 +1234,7 @@ namespace PortableCrmSdk
         }
         protected virtual void SetAttributeValue(string attributeLogicalName, Object value)
         {
-            if(!String.IsNullOrEmpty(attributeLogicalName))
+            if (!String.IsNullOrEmpty(attributeLogicalName))
                 this[attributeLogicalName] = value;
         }
         protected virtual void SetRelatedEntities<TEntity>(string relationshipSchemaName, Nullable<EntityRole> primaryEntityRole,
@@ -1172,7 +1243,7 @@ namespace PortableCrmSdk
             // Check schemaname
             if (String.IsNullOrEmpty(relationshipSchemaName))
                 return;
-                
+
             // Create relationship
             Relationship key = new Relationship(relationshipSchemaName)
             {
@@ -1658,7 +1729,7 @@ namespace PortableCrmSdk
         }
         public Relationship(string schemaName)
         {
-            if(!String.IsNullOrEmpty(schemaName))
+            if (!String.IsNullOrEmpty(schemaName))
                 this.SchemaName = schemaName;
         }
         internal string ToValueXml()

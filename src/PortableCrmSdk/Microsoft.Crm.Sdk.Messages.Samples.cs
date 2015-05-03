@@ -33,7 +33,7 @@ using System.Xml.Linq;
 // extracts data from HTTPResponse.    
 
 // Messages
-namespace PortableCrmSdk.Messages
+namespace CrmCross.Messages
 {
     #region AddItemCampaign
     public sealed class AddItemCampaignRequest : OrganizationRequest
@@ -12628,7 +12628,7 @@ namespace PortableCrmSdk.Messages
 }
 
 // Other types
-namespace PortableCrmSdk.Messages
+namespace CrmCross.Messages
 {
     public enum AccessRights
     {

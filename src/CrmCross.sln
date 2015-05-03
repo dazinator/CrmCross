@@ -3,17 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortableCrmSdk", "PortableCrmSdk\PortableCrmSdk.csproj", "{75D3E0E0-48E6-484F-BE3E-2D16A6A8C6E4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrmCross", "PortableCrmSdk\CrmCross.csproj", "{75D3E0E0-48E6-484F-BE3E-2D16A6A8C6E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortableCrmSdk.Tests", "PortableCrmSdk.Tests\PortableCrmSdk.Tests.csproj", "{952D29E3-3EE8-4869-BB51-39EFBA53E548}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortableCrmSdk.Windows", "PortableCrmSdk.Windows\PortableCrmSdk.Windows.csproj", "{295062BE-AF77-4292-9E54-F9902F2DE2D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrmCross.Windows", "PortableCrmSdk.Windows\CrmCross.Windows.csproj", "{295062BE-AF77-4292-9E54-F9902F2DE2D2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{716A9AE2-822A-4E5B-AB4A-33DBA4873591}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortableCrmSdk.Android", "PortableCrmSdk.Android\PortableCrmSdk.Android.csproj", "{90F2951D-3A0A-46A0-AECB-72966EDC75BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrmCross.Android", "PortableCrmSdk.Android\CrmCross.Android.csproj", "{90F2951D-3A0A-46A0-AECB-72966EDC75BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortableCrmSdk.WindowsPhone", "PortableCrmSdk.WindowsPhone\PortableCrmSdk.WindowsPhone.csproj", "{774D276A-D8B2-4C36-8628-3CE79A94AC3A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrmCross.WindowsPhone", "PortableCrmSdk.WindowsPhone\CrmCross.WindowsPhone.csproj", "{774D276A-D8B2-4C36-8628-3CE79A94AC3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrmCross.Android.Tests", "CrmCross.Android.Tests\CrmCross.Android.Tests.csproj", "{C55F122A-99B4-49BF-A778-1BC725463F51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrmCross.PortableTests", "CrmCross.PortableTests\CrmCross.PortableTests.csproj", "{1542FF5F-2CDD-4532-93F3-6BD8D52AD3AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrmCross.Droid", "CrmCross.Droid\CrmCross.Droid.csproj", "{70118079-0638-43B0-8768-D14E48DDE7EC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,14 +37,6 @@ Global
 		{75D3E0E0-48E6-484F-BE3E-2D16A6A8C6E4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{75D3E0E0-48E6-484F-BE3E-2D16A6A8C6E4}.Release|ARM.ActiveCfg = Release|Any CPU
 		{75D3E0E0-48E6-484F-BE3E-2D16A6A8C6E4}.Release|x86.ActiveCfg = Release|Any CPU
-		{952D29E3-3EE8-4869-BB51-39EFBA53E548}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{952D29E3-3EE8-4869-BB51-39EFBA53E548}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{952D29E3-3EE8-4869-BB51-39EFBA53E548}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{952D29E3-3EE8-4869-BB51-39EFBA53E548}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{952D29E3-3EE8-4869-BB51-39EFBA53E548}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{952D29E3-3EE8-4869-BB51-39EFBA53E548}.Release|Any CPU.Build.0 = Release|Any CPU
-		{952D29E3-3EE8-4869-BB51-39EFBA53E548}.Release|ARM.ActiveCfg = Release|Any CPU
-		{952D29E3-3EE8-4869-BB51-39EFBA53E548}.Release|x86.ActiveCfg = Release|Any CPU
 		{295062BE-AF77-4292-9E54-F9902F2DE2D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{295062BE-AF77-4292-9E54-F9902F2DE2D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{295062BE-AF77-4292-9E54-F9902F2DE2D2}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -69,11 +65,40 @@ Global
 		{774D276A-D8B2-4C36-8628-3CE79A94AC3A}.Release|ARM.Build.0 = Release|ARM
 		{774D276A-D8B2-4C36-8628-3CE79A94AC3A}.Release|x86.ActiveCfg = Release|x86
 		{774D276A-D8B2-4C36-8628-3CE79A94AC3A}.Release|x86.Build.0 = Release|x86
+		{C55F122A-99B4-49BF-A778-1BC725463F51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C55F122A-99B4-49BF-A778-1BC725463F51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C55F122A-99B4-49BF-A778-1BC725463F51}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{C55F122A-99B4-49BF-A778-1BC725463F51}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{C55F122A-99B4-49BF-A778-1BC725463F51}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C55F122A-99B4-49BF-A778-1BC725463F51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C55F122A-99B4-49BF-A778-1BC725463F51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C55F122A-99B4-49BF-A778-1BC725463F51}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{C55F122A-99B4-49BF-A778-1BC725463F51}.Release|ARM.ActiveCfg = Release|Any CPU
+		{C55F122A-99B4-49BF-A778-1BC725463F51}.Release|x86.ActiveCfg = Release|Any CPU
+		{1542FF5F-2CDD-4532-93F3-6BD8D52AD3AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1542FF5F-2CDD-4532-93F3-6BD8D52AD3AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1542FF5F-2CDD-4532-93F3-6BD8D52AD3AD}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{1542FF5F-2CDD-4532-93F3-6BD8D52AD3AD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1542FF5F-2CDD-4532-93F3-6BD8D52AD3AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1542FF5F-2CDD-4532-93F3-6BD8D52AD3AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1542FF5F-2CDD-4532-93F3-6BD8D52AD3AD}.Release|ARM.ActiveCfg = Release|Any CPU
+		{1542FF5F-2CDD-4532-93F3-6BD8D52AD3AD}.Release|x86.ActiveCfg = Release|Any CPU
+		{70118079-0638-43B0-8768-D14E48DDE7EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70118079-0638-43B0-8768-D14E48DDE7EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70118079-0638-43B0-8768-D14E48DDE7EC}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{70118079-0638-43B0-8768-D14E48DDE7EC}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{70118079-0638-43B0-8768-D14E48DDE7EC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{70118079-0638-43B0-8768-D14E48DDE7EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70118079-0638-43B0-8768-D14E48DDE7EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70118079-0638-43B0-8768-D14E48DDE7EC}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{70118079-0638-43B0-8768-D14E48DDE7EC}.Release|ARM.ActiveCfg = Release|Any CPU
+		{70118079-0638-43B0-8768-D14E48DDE7EC}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{952D29E3-3EE8-4869-BB51-39EFBA53E548} = {716A9AE2-822A-4E5B-AB4A-33DBA4873591}
+		{C55F122A-99B4-49BF-A778-1BC725463F51} = {716A9AE2-822A-4E5B-AB4A-33DBA4873591}
+		{1542FF5F-2CDD-4532-93F3-6BD8D52AD3AD} = {716A9AE2-822A-4E5B-AB4A-33DBA4873591}
 	EndGlobalSection
 EndGlobal

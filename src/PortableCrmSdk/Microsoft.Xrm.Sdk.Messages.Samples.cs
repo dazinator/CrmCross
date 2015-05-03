@@ -33,7 +33,7 @@ using System.Xml.Linq;
 // This namespace implements SOAP versions of the message request/response classes in the
 // Microsoft.Xrm.Sdk.Messages namespace of the Dynamics CRM SDK. 
 
-namespace PortableCrmSdk.Messages
+namespace CrmCross.Messages
 {
     #region Associate
     public sealed class AssociateRequest : OrganizationRequest

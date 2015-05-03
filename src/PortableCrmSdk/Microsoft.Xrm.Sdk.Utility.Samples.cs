@@ -19,7 +19,7 @@ using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
 using System.Globalization;
-using PortableCrmSdk.Messages;
+using CrmCross.Messages;
 
 // Implementation notes:
 // Some SDK classes have the following methods.
@@ -35,7 +35,7 @@ using PortableCrmSdk.Messages;
 // due to the language differences.
 // For more information about Sdk.Soap.js, see http://code.msdn.microsoft.com/SdkSoapjs-9b51b99a
 
-namespace PortableCrmSdk
+namespace CrmCross
 {
     #region Utility class
     // Utility Class

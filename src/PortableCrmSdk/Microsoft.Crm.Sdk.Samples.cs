@@ -27,7 +27,7 @@
 // due to the language differences.
 // For more information about Sdk.Soap.js, see http://code.msdn.microsoft.com/SdkSoapjs-9b51b99a
 
-namespace PortableCrmSdk
+namespace CrmCross
 {
     public static class BusinessUnitInheritanceMask
     {

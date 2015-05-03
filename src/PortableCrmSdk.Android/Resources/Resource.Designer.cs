@@ -37,14 +37,58 @@ namespace PortableCrmSdk.Android
 			}
 		}
 		
+		public partial class Id
+		{
+			
+			// aapt resource value: 0x7f040002
+			public static int accessToken = 2130968578;
+			
+			// aapt resource value: 0x7f040003
+			public static int agentWebView = 2130968579;
+			
+			// aapt resource value: 0x7f040000
+			public static int loginButton = 2130968576;
+			
+			// aapt resource value: 0x7f040001
+			public static int loginUsernamePasswordButton = 2130968577;
+			
+			static Id()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Id()
+			{
+			}
+		}
+		
+		public partial class Layout
+		{
+			
+			// aapt resource value: 0x7f020000
+			public static int Login = 2130837504;
+			
+			// aapt resource value: 0x7f020001
+			public static int WebAuthenticationBroker = 2130837505;
+			
+			static Layout()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Layout()
+			{
+			}
+		}
+		
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f020001
-			public static int ApplicationName = 2130837505;
+			// aapt resource value: 0x7f030001
+			public static int ApplicationName = 2130903041;
 			
-			// aapt resource value: 0x7f020000
-			public static int Hello = 2130837504;
+			// aapt resource value: 0x7f030000
+			public static int Hello = 2130903040;
 			
 			static String()
 			{
