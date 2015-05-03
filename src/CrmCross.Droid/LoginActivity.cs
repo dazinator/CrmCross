@@ -25,7 +25,7 @@ namespace CrmCross.Android
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            
+
             // Create your application here
             SetContentView(Resource.Layout.Login);
             var accessTokenText = this.FindViewById<TextView>(Resource.Id.accessToken);
@@ -39,6 +39,22 @@ namespace CrmCross.Android
                     accessTokenText.Text = tokenResult.AccessToken;
                 };
 
+            var secondButton = this.FindViewById<Button>(Resource.Id.loginUsernamePasswordButton);
+            secondButton.Click += async (s, e) =>
+            {
+                AdalClientApplicationDetails clientDetails = GetClientApplicationDetails();
+                CrmServerDetails crmServerDetails = GetCrmServerDetails(_CrmWebsiteUrl);
+                var tokenProvider = (IAuthenticationTokenProvider)new AdalAuthenticationTokenProvider(clientDetails, crmServerDetails);
+                var tokenResult = await tokenProvider.GetAuthenticationTokenAsync(TestConfig.Username, TestConfig.GetPassword());
+                accessTokenText.Text = tokenResult.AccessToken;
+            };
+
+        }
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+            AuthenticationAgentContinuationHelper.SetAuthenticationAgentContinuationEventArgs(requestCode, resultCode, data);
         }
 
         private CrmServerDetails GetCrmServerDetails(string crmUrl)
