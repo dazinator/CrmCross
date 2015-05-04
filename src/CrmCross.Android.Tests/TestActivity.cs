@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -12,9 +9,11 @@ using Android.Widget;
 
 namespace CrmCross.Android.Tests
 {
+    [IntentFilter(new[] { Intent.ActionView }, Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable }, DataScheme = "appschema", DataHost = "testactivity")]   
     [Activity(Label = "TestActivity")]
     public class TestActivity : Activity
     {
+       
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);

@@ -26,17 +26,16 @@ namespace CrmCross.Authentication
         public Uri RedirectUri { get; set; }
     }
 
-    public class AdalClientApplicationDetails : ClientApplicationDetails
-    {
-        public AdalClientApplicationDetails(string clientId, Uri redirectUri, IPlatformParameters platformParams)
-            : base(clientId, redirectUri)
-        {
-            PlatformParams = platformParams;
-        }
-        public string ClientId { get; set; }
-        public Uri RedirectUri { get; set; }
-        public IPlatformParameters PlatformParams { get; set; }
+    //public class AdalClientApplicationDetails : ClientApplicationDetails
+    //{
+    //    public AdalClientApplicationDetails(string clientId, Uri redirectUri, IPlatformParameters platformParams)
+    //        : base(clientId, redirectUri)
+    //    {
+    //        PlatformParams = platformParams;
+    //    }
+     
+    //    public IPlatformParameters PlatformParams { get; set; }
 
-    }
+    //}
 
 }

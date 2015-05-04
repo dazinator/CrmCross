@@ -625,8 +625,9 @@ namespace CrmCross
     public sealed class BigIntAttributeMetadata : AttributeMetadata
     {
         public const long MaxSupportedValue = 9223372036854775807;
-        public const long MinSupportedValue = -9223372036854775808;
+        public const long MinSupportedValue = (long)(-9223372036854775808);
         private long? _maxValue;
+
         public long? MaxValue
         {
             get { return _maxValue; }

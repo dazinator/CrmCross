@@ -22,7 +22,7 @@ namespace CrmCross.Tests
         /// <summary>
         /// This is the Redirect Url that I entered when registering the application through the Azure Management Portal.
         /// </summary>
-        public const string NativeClientRedirectUrl = "http://someurl.com";
+        public const string DroidNativeClientRedirectUrl = "appschema://crmcross.droid";
 
         /// <summary>
         /// This is the Url of the Dynamics CRM website.

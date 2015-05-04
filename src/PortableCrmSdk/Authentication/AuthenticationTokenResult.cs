@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,12 +10,12 @@ namespace CrmCross.Authentication
     public class AuthenticationTokenResult : IAuthenticationTokenResult
     {
         private bool _success;
-        private string _accessToken;
+        private AuthenticationResult _authResult;
 
-        public AuthenticationTokenResult(bool success, string accessToken)
+        internal AuthenticationTokenResult(AuthenticationResult authResult)
         {
-            _success = success;
-            _accessToken = accessToken;
+            _success = authResult != null;
+
         }
 
         public bool Success
@@ -24,7 +25,12 @@ namespace CrmCross.Authentication
 
         public string AccessToken
         {
-            get { return _accessToken; }
+            get { return _authResult == null ? string.Empty : _authResult.AccessToken; }
+        }
+
+        public string AccessTokenType
+        {
+            get { return _authResult == null ? string.Empty : _authResult.AccessTokenType; }
         }
 
         public Exception Exception { get; set; }

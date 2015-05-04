@@ -75,12 +75,18 @@
     <AndroidResource Include="Resources\drawable\Icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Properties\AndroidManifest.xml" />
+    <None Include="Properties\AndroidManifest.xml">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CrmCross.PortableTests\CrmCross.PortableTests.csproj">
       <Project>{1542ff5f-2cdd-4532-93f3-6bd8d52ad3ad}</Project>
       <Name>CrmCross.PortableTests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PortableCrmSdk.Android\CrmCross.Android.csproj">
+      <Project>{90f2951d-3a0a-46a0-aecb-72966edc75bf}</Project>
+      <Name>CrmCross.Android</Name>
     </ProjectReference>
     <ProjectReference Include="..\PortableCrmSdk\CrmCross.csproj">
       <Project>{75d3e0e0-48e6-484f-be3e-2d16a6a8c6e4}</Project>

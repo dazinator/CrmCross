@@ -60,7 +60,7 @@ namespace CrmCross
         public Guid CallerId;
         public int TimeoutInSeconds;
 
-        static private IEnumerable<TypeInfo> types;
+        static private IEnumerable<TypeInfo> types = null;
 
         #endregion class members
 
@@ -1178,7 +1178,7 @@ namespace CrmCross
                     return (T)this.Attributes[attributeLogicalName];
                 }
                 catch (Exception ex)
-                {
+                {                
                     return default(T);
                 }
             }

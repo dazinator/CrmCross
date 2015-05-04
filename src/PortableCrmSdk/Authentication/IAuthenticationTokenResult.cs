@@ -10,6 +10,7 @@ namespace CrmCross.Authentication
     {
         bool Success { get; }
         string AccessToken { get; }
+        string AccessTokenType { get; }
         Exception Exception { get; }
     }
 }

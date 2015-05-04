@@ -46,11 +46,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AsyncHelper.cs" />
+    <Compile Include="Authentication\AuthenticationDetailsProvider.cs" />
     <Compile Include="Authentication\AuthenticationTokenResult.cs" />
     <Compile Include="Authentication\ClientApplicationDetails.cs" />
     <Compile Include="Authentication\CrmServerDetails.cs" />
     <Compile Include="Authentication\IAuthenticationTokenProvider.cs" />
     <Compile Include="Authentication\IAuthenticationTokenResult.cs" />
+    <Compile Include="Authentication\IPlatform.cs" />
     <Compile Include="IOrganizationService.cs" />
     <Compile Include="Microsoft.Crm.Sdk.Messages.Samples.cs" />
     <Compile Include="Microsoft.Crm.Sdk.Samples.cs" />

@@ -13,14 +13,26 @@ using CrmCross.Authentication;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using CrmCross.Tests;
 using Resource = CrmCross.Droid.Resource;
+using System.Threading.Tasks;
+using PortableCrmSdk.Android;
+using PortableCrmSdk.Authentication;
 
-namespace CrmCross.Android
+namespace CrmCross.Droid
 {
+    // <intent-filter>          
+    //<action android:name="android.intent.action.VIEW"/>     
+    //<category android:name="android.intent.category.DEFAULT"/>
+    //<category android:name="android.intent.category.BROWSABLE"/>
+    //<data android:scheme="appSchema" android:host="appName"/> 
+    //</intent-filter>
+    [IntentFilter(new[] { Intent.ActionView }, Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable }, DataScheme = "appschema", DataHost = "crmcross.droid")]
     [Activity(Label = "CrmCross.Droid", MainLauncher = true, Icon = "@drawable/icon")]
     public class LoginActivity : Activity
     {
+             
 
-        private string _CrmWebsiteUrl = TestConfig.Crm_2013_Online_Org_Url;
+        private IAuthenticationTokenProvider _authTokenProvider = null;
+        private IAuthenticationDetailsProvider _authDetailsProvider = null;       
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -28,27 +40,55 @@ namespace CrmCross.Android
 
             // Create your application here
             SetContentView(Resource.Layout.Login);
-            var accessTokenText = this.FindViewById<TextView>(Resource.Id.accessToken);
+
+            _authDetailsProvider = GetAuthenticationDetailsProvider();
+            _authTokenProvider = GetAuthenticationTokenProvider(_authDetailsProvider);
+
             var button = this.FindViewById<Button>(Resource.Id.loginButton);
-            button.Click += async (s, e) =>
-                {
-                    AdalClientApplicationDetails clientDetails = GetClientApplicationDetails();
-                    CrmServerDetails crmServerDetails = GetCrmServerDetails(_CrmWebsiteUrl);
-                    var tokenProvider = (IAuthenticationTokenProvider)new AdalAuthenticationTokenProvider(clientDetails, crmServerDetails);
-                    var tokenResult = await tokenProvider.GetAuthenticateTokenAsync();
-                    accessTokenText.Text = tokenResult.AccessToken;
-                };
+            button.Click += loginButton_click;
 
             var secondButton = this.FindViewById<Button>(Resource.Id.loginUsernamePasswordButton);
-            secondButton.Click += async (s, e) =>
-            {
-                AdalClientApplicationDetails clientDetails = GetClientApplicationDetails();
-                CrmServerDetails crmServerDetails = GetCrmServerDetails(_CrmWebsiteUrl);
-                var tokenProvider = (IAuthenticationTokenProvider)new AdalAuthenticationTokenProvider(clientDetails, crmServerDetails);
-                var tokenResult = await tokenProvider.GetAuthenticationTokenAsync(TestConfig.Username, TestConfig.GetPassword());
-                accessTokenText.Text = tokenResult.AccessToken;
-            };
+            secondButton.Click += secondButton_Click;
+        }
 
+        private AdalAuthenticationTokenProvider GetAuthenticationTokenProvider(IAuthenticationDetailsProvider authenticationDetailsProvider)
+        {
+            return new AdalAuthenticationTokenProvider(authenticationDetailsProvider);
+        }
+
+        private AndroidAuthenticationDetailsProvider GetAuthenticationDetailsProvider()
+        {
+            Uri crmWebsiteUrl = new Uri(TestConfig.Crm_2013_Online_Org_Url);
+            AndroidAuthenticationDetailsProvider authDetailsProvider = new AndroidAuthenticationDetailsProvider(TestConfig.NativeClientId, crmWebsiteUrl, this);
+            return authDetailsProvider;
+        }
+
+        async void secondButton_Click(object sender, EventArgs e)
+        {
+            await LogInUser(TestConfig.Username, TestConfig.GetPassword());
+        }
+
+        async void loginButton_click(object sender, EventArgs e)
+        {
+            await LogInUser();
+        }
+
+        private async Task LogInUser(string username, string password)
+        {
+            // Before we attempt token aquisition, set a username and password.
+            _authDetailsProvider.UserCredentials.Username = username;
+            _authDetailsProvider.UserCredentials.Password = password;
+
+            var tokenResult = await _authTokenProvider.GetAuthenticateTokenAsync();
+            var accessTokenText = this.FindViewById<TextView>(Resource.Id.accessToken);
+            accessTokenText.Text = tokenResult.AccessToken;
+        }
+
+        private async Task LogInUser()
+        {
+            var tokenResult = await _authTokenProvider.GetAuthenticateTokenAsync();
+            var accessTokenText = this.FindViewById<TextView>(Resource.Id.accessToken);
+            accessTokenText.Text = tokenResult.AccessToken;
         }
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
@@ -57,25 +97,10 @@ namespace CrmCross.Android
             AuthenticationAgentContinuationHelper.SetAuthenticationAgentContinuationEventArgs(requestCode, resultCode, data);
         }
 
-        private CrmServerDetails GetCrmServerDetails(string crmUrl)
+        protected override void OnNewIntent(Intent intent)
         {
-            var crmUri = new Uri(crmUrl);
-            CrmServerDetails crmServerDetails = new CrmServerDetails(crmUri);
-            return crmServerDetails;
+            base.OnNewIntent(intent);
         }
 
-        private AdalClientApplicationDetails GetClientApplicationDetails()
-        {
-            var redirectUrl = new Uri(TestConfig.NativeClientRedirectUrl);
-            var platformParams = GetPlatformParameters();
-            var clientDetails = new AdalClientApplicationDetails(TestConfig.NativeClientId, redirectUrl, platformParams);
-            return clientDetails;
-        }
-
-        protected virtual IPlatformParameters GetPlatformParameters()
-        {
-            var platFormParams = new PlatformParameters(this);
-            return platFormParams;
-        }
     }
 }
