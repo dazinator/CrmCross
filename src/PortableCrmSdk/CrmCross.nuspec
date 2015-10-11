@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>CrmCross</id>
+    <version>$version$</version>
+    <title>CrmCross</title>
+    <description>CrmCross is an implementation of the Dynamics CRM SDK compiled as a Portable Class Library. It originates from the MS sample code here: https://code.msdn.microsoft.com/Mobile-Development-Helper-3213e2e6. It provides as SDK for Dyanmics CRM that can be used from multiple platforms such as Xamarin Android, Xamarin iOS etc.</description>
+    <authors>Darrell Tunnell, MS Dynamics CRM Content Publishing Team</authors>
+    <owners>Darrell Tunnell</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <language>en-gb</language>
+    <projectUrl>https://bitbucket.org/dazinator/crmcross/</projectUrl>
+    <licenseUrl>https://code.msdn.microsoft.com/site/Mobile-Development-Helper-3213e2e6/eulapartial?licenseType=MSLPL</licenseUrl>
+    <copyright>MICROSOFT LIMITED PUBLIC LICENSE version 1.1</copyright>
+    <releaseNotes>
+     Initial Release.
+    </releaseNotes>
+    <tags>Dynamics Crm DynamicsCrm SDK Portable Mobile Xamarin Droid iOS</tags>
+    <dependencies>
+      <package id="Microsoft.IdentityModel.Clients.ActiveDirectory" version="3.5.208051316-alpha" />
+      <package id="Newtonsoft.Json" version="7.0.1" />    
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\CrmCross.dll" target="lib\portable-net40+win+MonoAndroid10+xamarinios10+MonoTouch10" />
+    <file src="bin\Release\CrmCross.pdb" target="lib\portable-net40+win+MonoAndroid10+xamarinios10+MonoTouch10" /> 
+  </files>
+</package>

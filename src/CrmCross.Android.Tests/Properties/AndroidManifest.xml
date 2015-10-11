@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="CrmCross.Android.Tests" android:versionCode="1" android:versionName="1.0">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="crmcross.android.tests" android:versionCode="1" android:versionName="1.0">
 	<uses-sdk />
-	<application android:label="CrmCross.Android.Tests" android:icon="@drawable/Icon"></application>
+	<application android:label="crmcross.android.tests" android:icon="@drawable/Icon"></application>
 </manifest>
