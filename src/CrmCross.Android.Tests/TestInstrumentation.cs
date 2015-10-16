@@ -5,9 +5,9 @@ using Android.Runtime;
 using Xamarin.Android.NUnitLite;
 using System.Reflection;
 
-namespace App.Tests
+namespace CrmCross.Android.Tests
 {
-    [Instrumentation]
+    [Instrumentation(Name = "crmcross.android.tests.TestInstrumentation")]
     public class TestInstrumentation : TestSuiteInstrumentation
     {
 

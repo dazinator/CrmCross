@@ -1,21 +1,15 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 using CrmCross.Authentication;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using CrmCross.Tests;
-using Resource = CrmCross.Droid.Resource;
 using System.Threading.Tasks;
-using PortableCrmSdk.Android;
 using PortableCrmSdk.Authentication;
+using PortableCrmSdk.Http;
 
 namespace CrmCross.Droid
 {
@@ -53,7 +47,7 @@ namespace CrmCross.Droid
 
         private AdalAuthenticationTokenProvider GetAuthenticationTokenProvider(IAuthenticationDetailsProvider authenticationDetailsProvider)
         {
-            return new AdalAuthenticationTokenProvider(authenticationDetailsProvider);
+            return new AdalAuthenticationTokenProvider(authenticationDetailsProvider, new AndroidHttpClientFactory());
         }
 
         private AndroidAuthenticationDetailsProvider GetAuthenticationDetailsProvider()
@@ -65,7 +59,8 @@ namespace CrmCross.Droid
 
         async void secondButton_Click(object sender, EventArgs e)
         {
-            await LogInUser(TestConfig.Username, TestConfig.GetPassword());
+            var fileSystem = new FileSystem();
+            await LogInUser(TestConfig.Username, TestConfig.GetPassword(fileSystem));
         }
 
         async void loginButton_click(object sender, EventArgs e)

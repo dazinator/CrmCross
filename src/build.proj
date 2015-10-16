@@ -27,7 +27,7 @@
     <AndroidTestsProject Condition="$(AndroidTestsProjectPath) == ''">$(SolutionDir)\CrmCross.Android.Tests\CrmCross.Android.Tests.csproj</AndroidTestsProject>
     <AndroidTestsManifestPackageName Condition="$(AndroidTestsManifestPackageName) == ''">crmcross.android.tests</AndroidTestsManifestPackageName>
     <AndroidTestsApkPath Condition="$(AndroidTestsPackageName) == ''">$(SolutionDir)\CrmCross.Android.Tests\bin\release\crmcross.android.tests-signed.apk</AndroidTestsApkPath>
-    <AndroidTestsInstrumentationClassPath Condition="$(AndroidTestsInstrumentationClassPath) == ''">app.tests.TestInstrumentation</AndroidTestsInstrumentationClassPath>
+    <AndroidTestsInstrumentationClassPath Condition="$(AndroidTestsInstrumentationClassPath) == ''">crmcross.android.tests.TestInstrumentation</AndroidTestsInstrumentationClassPath>
 
   </PropertyGroup>
 
@@ -94,7 +94,7 @@
  
     <!--Let the emulator finish starting up-->
     <Message Text="Waiting for emulator to finish starting..."/>
-    <Sleep Seconds='60' ContinueOnError='true'/>   
+    <Sleep Seconds='120' ContinueOnError='true'/>   
 
     <!--Install the apk -->
     <Message Text="Installing tests apk."/>

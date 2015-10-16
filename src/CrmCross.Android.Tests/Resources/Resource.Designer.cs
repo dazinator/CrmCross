@@ -29,10 +29,34 @@ namespace CrmCross.Android.Tests
 			global::Microsoft.IdentityModel.Clients.ActiveDirectory.Resource.Id.agentWebView = global::CrmCross.Android.Tests.Resource.Id.agentWebView;
 			global::Microsoft.IdentityModel.Clients.ActiveDirectory.Resource.Layout.WebAuthenticationBroker = global::CrmCross.Android.Tests.Resource.Layout.WebAuthenticationBroker;
 			global::Microsoft.IdentityModel.Clients.ActiveDirectory.Resource.String.ApplicationName = global::CrmCross.Android.Tests.Resource.String.ApplicationName;
+			global::ModernHttpClient.Resource.String.library_name = global::CrmCross.Android.Tests.Resource.String.library_name;
+			global::PortableCrmSdk.Android.Resource.Id.OptionHostName = global::CrmCross.Android.Tests.Resource.Id.OptionHostName;
+			global::PortableCrmSdk.Android.Resource.Id.OptionPort = global::CrmCross.Android.Tests.Resource.Id.OptionPort;
+			global::PortableCrmSdk.Android.Resource.Id.OptionRemoteServer = global::CrmCross.Android.Tests.Resource.Id.OptionRemoteServer;
+			global::PortableCrmSdk.Android.Resource.Id.OptionsButton = global::CrmCross.Android.Tests.Resource.Id.OptionsButton;
+			global::PortableCrmSdk.Android.Resource.Id.ResultFullName = global::CrmCross.Android.Tests.Resource.Id.ResultFullName;
+			global::PortableCrmSdk.Android.Resource.Id.ResultMessage = global::CrmCross.Android.Tests.Resource.Id.ResultMessage;
+			global::PortableCrmSdk.Android.Resource.Id.ResultResultState = global::CrmCross.Android.Tests.Resource.Id.ResultResultState;
+			global::PortableCrmSdk.Android.Resource.Id.ResultRunSingleMethodTest = global::CrmCross.Android.Tests.Resource.Id.ResultRunSingleMethodTest;
+			global::PortableCrmSdk.Android.Resource.Id.ResultStackTrace = global::CrmCross.Android.Tests.Resource.Id.ResultStackTrace;
+			global::PortableCrmSdk.Android.Resource.Id.ResultsFailed = global::CrmCross.Android.Tests.Resource.Id.ResultsFailed;
+			global::PortableCrmSdk.Android.Resource.Id.ResultsId = global::CrmCross.Android.Tests.Resource.Id.ResultsId;
+			global::PortableCrmSdk.Android.Resource.Id.ResultsIgnored = global::CrmCross.Android.Tests.Resource.Id.ResultsIgnored;
+			global::PortableCrmSdk.Android.Resource.Id.ResultsInconclusive = global::CrmCross.Android.Tests.Resource.Id.ResultsInconclusive;
+			global::PortableCrmSdk.Android.Resource.Id.ResultsMessage = global::CrmCross.Android.Tests.Resource.Id.ResultsMessage;
+			global::PortableCrmSdk.Android.Resource.Id.ResultsPassed = global::CrmCross.Android.Tests.Resource.Id.ResultsPassed;
+			global::PortableCrmSdk.Android.Resource.Id.ResultsResult = global::CrmCross.Android.Tests.Resource.Id.ResultsResult;
+			global::PortableCrmSdk.Android.Resource.Id.RunTestsButton = global::CrmCross.Android.Tests.Resource.Id.RunTestsButton;
+			global::PortableCrmSdk.Android.Resource.Id.TestSuiteListView = global::CrmCross.Android.Tests.Resource.Id.TestSuiteListView;
 			global::PortableCrmSdk.Android.Resource.Id.agentWebView = global::CrmCross.Android.Tests.Resource.Id.agentWebView;
+			global::PortableCrmSdk.Android.Resource.Layout.options = global::CrmCross.Android.Tests.Resource.Layout.options;
+			global::PortableCrmSdk.Android.Resource.Layout.results = global::CrmCross.Android.Tests.Resource.Layout.results;
+			global::PortableCrmSdk.Android.Resource.Layout.test_result = global::CrmCross.Android.Tests.Resource.Layout.test_result;
+			global::PortableCrmSdk.Android.Resource.Layout.test_suite = global::CrmCross.Android.Tests.Resource.Layout.test_suite;
 			global::PortableCrmSdk.Android.Resource.Layout.WebAuthenticationBroker = global::CrmCross.Android.Tests.Resource.Layout.WebAuthenticationBroker;
 			global::PortableCrmSdk.Android.Resource.String.ApplicationName = global::CrmCross.Android.Tests.Resource.String.ApplicationName;
 			global::PortableCrmSdk.Android.Resource.String.Hello = global::CrmCross.Android.Tests.Resource.String.Hello;
+			global::PortableCrmSdk.Android.Resource.String.library_name = global::CrmCross.Android.Tests.Resource.String.library_name;
 			global::Xamarin.Android.NUnitLite.Resource.Id.OptionHostName = global::CrmCross.Android.Tests.Resource.Id.OptionHostName;
 			global::Xamarin.Android.NUnitLite.Resource.Id.OptionPort = global::CrmCross.Android.Tests.Resource.Id.OptionPort;
 			global::Xamarin.Android.NUnitLite.Resource.Id.OptionRemoteServer = global::CrmCross.Android.Tests.Resource.Id.OptionRemoteServer;
@@ -192,6 +216,9 @@ namespace CrmCross.Android.Tests
 			
 			// aapt resource value: 0x7f040000
 			public const int Hello = 2130968576;
+			
+			// aapt resource value: 0x7f040002
+			public const int library_name = 2130968578;
 			
 			static String()
 			{

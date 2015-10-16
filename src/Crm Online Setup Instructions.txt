@@ -1,0 +1,25 @@
+1. Create a CRM Online Free Trial: https://www.microsoft.com/en-gb/dynamics/crm-free-trial-overview.aspx
+2. Go to Azure Management Portal - you need to log in with an account that has an Azure Subscription: https://manage.windowsazure.com/
+3. Go to AD
+4. Create a new AD directory - it should ask you to sign out and sign back in with your crm office 365 account that you created during the CRM trial sign up process.
+5. It will tell you its created the directory - sign out from the office 365 account, and sign back in with your azure subscription account.
+6. Go to the new AD directory (on azure management portal), on "Applications" - add a new "Native Client" application.
+	Name: Your android app name - e.g CrmCross.Droid
+	RedirectUrl: appSchema://CrmCross.Droid
+
+After adding the native client app, expand the "Update your code" section to get the CLIENT ID - which is a GUID - e.g: d69a4eb7-ace3-4d62-888e-0259d4d792a7
+
+7. Find TestConfig.cs in the CrmCross.PortableTests project, and update the following properties:
+
+NativeClientId = your CLIENT ID
+DroidNativeClientRedirectUrl = your RedirectUrl
+Crm_2013_Online_Org_Url =  the url of your CRM organisation (that you created through the trial sign up)
+Username = The username of an AD user account in your AD directory - you can see the users for the AD directory in the Azure Management Portal
+
+8. Write the password for the above AD account in a plain txt file "crmcrosspassword.txt" and push this file to your android device:
+
+adb push "crmcrosspassword.txt" "/mnt/sdcard/crmcrosspassword.txt"
+
+The tests will read the password from this file when they run. This password should never be checked in to source control or specified in code anywhere.
+
+9. You can now run the android tests. 
