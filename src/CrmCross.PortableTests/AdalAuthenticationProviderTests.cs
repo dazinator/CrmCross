@@ -18,7 +18,7 @@ namespace CrmCross.Tests
             var httpClientFactory = GetHttpClientFactory();
 
             var tokenProvider = (IAuthenticationTokenProvider)new AdalAuthenticationTokenProvider(authDetails, httpClientFactory);
-            var tokenResult = await tokenProvider.GetAuthenticateTokenAsync();
+            var tokenResult = await tokenProvider.GetAuthenticateTokenAsync().ConfigureAwait(false);
             Assert.That(tokenResult, Is.Not.Null);
             Assert.That(tokenResult.AccessToken, Is.Not.Null);
         }    
@@ -28,16 +28,17 @@ namespace CrmCross.Tests
         {
 
             var authDetails = GetAuthenticationDetailsProvider();
-            authDetails.CrmServerDetails.CrmWebsiteUrl = new Uri(crmWebsiteUrl);
-            authDetails.UserCredentials.Username = userName;
+            authDetails.CrmServerDetails.CrmWebsiteUrl = new Uri(crmWebsiteUrl);          
 
             var fileSystem = GetFileSystem();
-            authDetails.UserCredentials.Password = TestConfig.GetPassword(fileSystem);
+            var password = TestConfig.GetPassword(fileSystem);
+
+            authDetails.UserCredentials = new UsernamePasswordCredential(userName, password);
 
             var httpClientFactory = GetHttpClientFactory();
             var tokenProvider = (IAuthenticationTokenProvider)new AdalAuthenticationTokenProvider(authDetails, httpClientFactory);
 
-            var tokenResult = await tokenProvider.GetAuthenticateTokenAsync();
+            var tokenResult = await tokenProvider.GetAuthenticateTokenAsync().ConfigureAwait(false); 
             Assert.That(tokenResult, Is.Not.Null);
             Assert.That(tokenResult.AccessToken, Is.Not.Null);
 

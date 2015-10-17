@@ -45,9 +45,10 @@ namespace CrmCross.Authentication
                     // need to specify soap endpoint with client version,.
                     var dynamicsInfo = GetCrmServerDetails();
 
-                    using (HttpResponseMessage httpResponse = await httpClient.GetAsync(dynamicsInfo.AuthenticationEndpointUrl))
+                    var response = await httpClient.GetAsync(dynamicsInfo.AuthenticationEndpointUrl).ConfigureAwait(false);
+                    using (response)
                     {
-                        parameters = await AuthenticationParameters.CreateFromUnauthorizedResponseAsync(httpResponse);
+                        parameters = await AuthenticationParameters.CreateFromUnauthorizedResponseAsync(response);
                         Uri authorityUri = new Uri(parameters.Authority);
                         _authContext = new AuthenticationContext(authorityUri.ToString(), false);
                         // For phone, we dont need oauth2/authorization part.
@@ -94,21 +95,22 @@ namespace CrmCross.Authentication
             // Obtain an authentication token to access the web service.
             try
             {
-                var authenticationContext = _authContext ?? await GetAuthenticationContext();
+                bool continueOnCapturedContext = _authContext == null;
+                var authenticationContext = _authContext ?? await GetAuthenticationContext().ConfigureAwait(false);
                 var clientAppDetails = GetClientDetails();
                 var serverDetails = GetCrmServerDetails();
                 var resource = serverDetails.CrmWebsiteUrl;
 
                 //    var userCredential = new UserCredential(username, password);
 
-                UsernamePasswordCredential credentials = GetUserCredentials();
-                UserCredential userCredential = credentials.UserCredential;
+                UsernamePasswordCredential credentials = GetUserCredentials();              
 
                 AuthenticationResult result = null;
 
                 if (credentials != null)
                 {
-                    result = await authenticationContext.AcquireTokenAsync(resource.ToString(), clientAppDetails.ClientId, userCredential);
+                    UserCredential userCredential = credentials.UserCredential;
+                    result = await authenticationContext.AcquireTokenAsync(resource.ToString(), clientAppDetails.ClientId, userCredential).ConfigureAwait(continueOnCapturedContext);
                 }
                 else
                 {
@@ -118,7 +120,7 @@ namespace CrmCross.Authentication
                         throw new Exception("No token can be obtained because no UserCredential or Platform was provided.");
                     }
                     var platformParams = platform.PlatformParameters;
-                    result = await authenticationContext.AcquireTokenAsync(resource.ToString(), clientAppDetails.ClientId, clientAppDetails.RedirectUri, platformParams);
+                    result = await authenticationContext.AcquireTokenAsync(resource.ToString(), clientAppDetails.ClientId, clientAppDetails.RedirectUri, platformParams).ConfigureAwait(continueOnCapturedContext);
                 }
 
                 // return authContext.AcquireTokenAsync(resource.ToString(), clientAppDetails.ClientId, userCredential);
