@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace CrmCross.Authentication
 { 
-    
+        
+    /// <summary>
+    /// Provides authentication tokens using ADAL.
+    /// </summary>
     public class AdalAuthenticationTokenProvider : IAuthenticationTokenProvider
     {
         private AuthenticationContext _authContext = null;
@@ -16,6 +19,11 @@ namespace CrmCross.Authentication
         private IAuthenticationTokenResult _LastToken;
         private IHttpClientFactory _httpClientFactory;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="authenticationDetailsProvider">Provides the authentication parameters for token aquisition.</param>
+        /// <param name="httpClientFactory">Provides the HTTP client necessary for making HTTP requests for token aquisition.</param>
         public AdalAuthenticationTokenProvider(IAuthenticationDetailsProvider authenticationDetailsProvider, IHttpClientFactory httpClientFactory)
         {
             if (authenticationDetailsProvider == null)
@@ -41,7 +49,6 @@ namespace CrmCross.Authentication
                 {
                     httpClient.DefaultRequestHeaders.Authorization = _authHeader;
                     //httpWebRequest.ContentType = "application/x-www-form-urlencoded";
-
                     // need to specify soap endpoint with client version,.
                     var dynamicsInfo = GetCrmServerDetails();
 
@@ -55,8 +62,6 @@ namespace CrmCross.Authentication
                         // AuthorityUrl = System.Net.WebUtility.UrlDecode(httpResponse.Headers.GetValues("WWW-Authenticate").FirstOrDefault().Split('=')[1]).Replace("oauth2/authorize", "");
                     }
                 }
-                //var authority = await DiscoverAuthority().ConfigureAwait(false);
-
             }
             return _authContext;
         }        
@@ -83,13 +88,20 @@ namespace CrmCross.Authentication
 
         #region IAuthenticationProvider  
 
+        /// <summary>
+        /// Returns the last token that was successfully aquired.
+        /// </summary>
+        /// <returns></returns>
         public IAuthenticationTokenResult GetLastToken()
         {
             return _LastToken;
         }
 
-        #endregion
-
+        /// <summary>
+        /// Returns an authentication token. If no user credentials are currently set, this will attempt to redirect the user to a sign in page. If user credentials are set,
+        /// it will either return the token from the cache, or it will aquire a new token based on those credentials.
+        /// </summary>
+        /// <returns></returns>
         public async Task<IAuthenticationTokenResult> GetAuthenticateTokenAsync()
         {
             // Obtain an authentication token to access the web service.
@@ -101,10 +113,7 @@ namespace CrmCross.Authentication
                 var serverDetails = GetCrmServerDetails();
                 var resource = serverDetails.CrmWebsiteUrl;
 
-                //    var userCredential = new UserCredential(username, password);
-
-                UsernamePasswordCredential credentials = GetUserCredentials();              
-
+                UsernamePasswordCredential credentials = GetUserCredentials();
                 AuthenticationResult result = null;
 
                 if (credentials != null)
@@ -123,9 +132,6 @@ namespace CrmCross.Authentication
                     result = await authenticationContext.AcquireTokenAsync(resource.ToString(), clientAppDetails.ClientId, clientAppDetails.RedirectUri, platformParams).ConfigureAwait(continueOnCapturedContext);
                 }
 
-                // return authContext.AcquireTokenAsync(resource.ToString(), clientAppDetails.ClientId, userCredential);
-
-                //  var result = await authenticate(authenticationContext);
                 var authTokenResult = new AuthenticationTokenResult(result);
                 _LastToken = authTokenResult;
                 return authTokenResult;
@@ -137,6 +143,8 @@ namespace CrmCross.Authentication
                 return exResult;
             }
         }
+
+        #endregion
 
     }
 

@@ -26,36 +26,14 @@ namespace CrmCross.Droid
 		
 		public static void UpdateIdValues()
 		{
+			global::CrmCross.Android.Resource.Id.agentWebView = global::CrmCross.Droid.Resource.Id.agentWebView;
+			global::CrmCross.Android.Resource.Layout.WebAuthenticationBroker = global::CrmCross.Droid.Resource.Layout.WebAuthenticationBroker;
+			global::CrmCross.Android.Resource.String.ApplicationName = global::CrmCross.Droid.Resource.String.ApplicationName;
+			global::CrmCross.Android.Resource.String.Hello = global::CrmCross.Droid.Resource.String.Hello;
+			global::CrmCross.Android.Resource.String.library_name = global::CrmCross.Droid.Resource.String.library_name;
 			global::Microsoft.IdentityModel.Clients.ActiveDirectory.Resource.Id.agentWebView = global::CrmCross.Droid.Resource.Id.agentWebView;
 			global::Microsoft.IdentityModel.Clients.ActiveDirectory.Resource.Layout.WebAuthenticationBroker = global::CrmCross.Droid.Resource.Layout.WebAuthenticationBroker;
 			global::Microsoft.IdentityModel.Clients.ActiveDirectory.Resource.String.ApplicationName = global::CrmCross.Droid.Resource.String.ApplicationName;
-			global::PortableCrmSdk.Android.Resource.Id.OptionHostName = global::CrmCross.Droid.Resource.Id.OptionHostName;
-			global::PortableCrmSdk.Android.Resource.Id.OptionPort = global::CrmCross.Droid.Resource.Id.OptionPort;
-			global::PortableCrmSdk.Android.Resource.Id.OptionRemoteServer = global::CrmCross.Droid.Resource.Id.OptionRemoteServer;
-			global::PortableCrmSdk.Android.Resource.Id.OptionsButton = global::CrmCross.Droid.Resource.Id.OptionsButton;
-			global::PortableCrmSdk.Android.Resource.Id.ResultFullName = global::CrmCross.Droid.Resource.Id.ResultFullName;
-			global::PortableCrmSdk.Android.Resource.Id.ResultMessage = global::CrmCross.Droid.Resource.Id.ResultMessage;
-			global::PortableCrmSdk.Android.Resource.Id.ResultResultState = global::CrmCross.Droid.Resource.Id.ResultResultState;
-			global::PortableCrmSdk.Android.Resource.Id.ResultRunSingleMethodTest = global::CrmCross.Droid.Resource.Id.ResultRunSingleMethodTest;
-			global::PortableCrmSdk.Android.Resource.Id.ResultStackTrace = global::CrmCross.Droid.Resource.Id.ResultStackTrace;
-			global::PortableCrmSdk.Android.Resource.Id.ResultsFailed = global::CrmCross.Droid.Resource.Id.ResultsFailed;
-			global::PortableCrmSdk.Android.Resource.Id.ResultsId = global::CrmCross.Droid.Resource.Id.ResultsId;
-			global::PortableCrmSdk.Android.Resource.Id.ResultsIgnored = global::CrmCross.Droid.Resource.Id.ResultsIgnored;
-			global::PortableCrmSdk.Android.Resource.Id.ResultsInconclusive = global::CrmCross.Droid.Resource.Id.ResultsInconclusive;
-			global::PortableCrmSdk.Android.Resource.Id.ResultsMessage = global::CrmCross.Droid.Resource.Id.ResultsMessage;
-			global::PortableCrmSdk.Android.Resource.Id.ResultsPassed = global::CrmCross.Droid.Resource.Id.ResultsPassed;
-			global::PortableCrmSdk.Android.Resource.Id.ResultsResult = global::CrmCross.Droid.Resource.Id.ResultsResult;
-			global::PortableCrmSdk.Android.Resource.Id.RunTestsButton = global::CrmCross.Droid.Resource.Id.RunTestsButton;
-			global::PortableCrmSdk.Android.Resource.Id.TestSuiteListView = global::CrmCross.Droid.Resource.Id.TestSuiteListView;
-			global::PortableCrmSdk.Android.Resource.Id.agentWebView = global::CrmCross.Droid.Resource.Id.agentWebView;
-			global::PortableCrmSdk.Android.Resource.Layout.options = global::CrmCross.Droid.Resource.Layout.options;
-			global::PortableCrmSdk.Android.Resource.Layout.results = global::CrmCross.Droid.Resource.Layout.results;
-			global::PortableCrmSdk.Android.Resource.Layout.test_result = global::CrmCross.Droid.Resource.Layout.test_result;
-			global::PortableCrmSdk.Android.Resource.Layout.test_suite = global::CrmCross.Droid.Resource.Layout.test_suite;
-			global::PortableCrmSdk.Android.Resource.Layout.WebAuthenticationBroker = global::CrmCross.Droid.Resource.Layout.WebAuthenticationBroker;
-			global::PortableCrmSdk.Android.Resource.String.ApplicationName = global::CrmCross.Droid.Resource.String.ApplicationName;
-			global::PortableCrmSdk.Android.Resource.String.Hello = global::CrmCross.Droid.Resource.String.Hello;
-			global::PortableCrmSdk.Android.Resource.String.library_name = global::CrmCross.Droid.Resource.String.library_name;
 		}
 		
 		public partial class Attribute
@@ -200,11 +178,11 @@ namespace CrmCross.Droid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f040002
-			public const int ApplicationName = 2130968578;
-			
 			// aapt resource value: 0x7f040001
-			public const int Hello = 2130968577;
+			public const int ApplicationName = 2130968577;
+			
+			// aapt resource value: 0x7f040002
+			public const int Hello = 2130968578;
 			
 			// aapt resource value: 0x7f040000
 			public const int library_name = 2130968576;

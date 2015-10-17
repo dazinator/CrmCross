@@ -2,11 +2,11 @@
 using NUnit.Framework;
 using CrmCross.Authentication;
 using CrmCross.Tests;
-using PortableCrmSdk.Authentication;
+using CrmCross.Authentication;
 using CrmCross.Http;
 using ModernHttpClient;
 using System.Net.Http;
-using PortableCrmSdk.Http;
+using CrmCross.Http;
 
 namespace CrmCross.Android.Tests
 {

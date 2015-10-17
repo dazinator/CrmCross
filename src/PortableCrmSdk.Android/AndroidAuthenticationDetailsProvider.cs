@@ -1,22 +1,25 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using Android.App;
 using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using CrmCross.Authentication;
 
-namespace PortableCrmSdk.Authentication
+namespace CrmCross.Authentication
 {
+    /// <summary>
+    /// Provides authentication details necessary for authentication token aquisition on Android.
+    /// </summary>
     public class AndroidAuthenticationDetailsProvider : AuthenticationDetailsProvider
     {
         private Activity _activity;       
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="clientId">The client id of our application - identifies the application wishing to be granted access to CRM.</param>
+        /// <param name="crmWebsiteServerUrl">The url of the Dynamics Crm website that we wish to be granted access to.</param>
+        /// <param name="callingActivity">The current android activity. This is inspected for DataHost and DataScheme attribute information (IntentFilter) which is used to formulate a return uri, which allows a sign in page to navigate back to the activity after sign in has been completed. This is only used if you do not explicitly provide a returnUrl argument.</param>
+        /// <param name="returnUrl">The return URI that configured for our client application. This URI is the one used by the sign in page when it needs to navigate back to the activity.</param>
         public AndroidAuthenticationDetailsProvider(string clientId, Uri crmWebsiteServerUrl, Activity callingActivity, string returnUrl = "")
         {
             _activity = callingActivity;
@@ -32,6 +35,11 @@ namespace PortableCrmSdk.Authentication
             UserCredentials = null; // new UsernamePasswordCredential(String.Empty, String.Empty);
         }
 
+        /// <summary>
+        ///  Inspects the attributes present on the Activity class, to get the DataScheme and DataHost which are necessary to indicate the return Url allowing a sign in page to navigate back to the activity after sign in.
+        /// </summary>
+        /// <param name="activity"></param>
+        /// <returns></returns>
         public static Uri DiscoverActivityReturnUri(Activity activity)
         {
             var intentFilterAtts = activity.GetType().GetCustomAttributes(typeof(IntentFilterAttribute), true);
@@ -61,6 +69,9 @@ namespace PortableCrmSdk.Authentication
 
         public override UsernamePasswordCredential UserCredentials { get; set; }
 
+        /// <summary>
+        /// Returns the platform.
+        /// </summary>
         public override Platform Platform
         {
             get

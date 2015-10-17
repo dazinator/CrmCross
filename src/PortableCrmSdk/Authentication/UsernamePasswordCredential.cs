@@ -2,6 +2,10 @@
 
 namespace CrmCross.Authentication
 {
+
+    /// <summary>
+    /// The username and password details of the account used to authenticate.
+    /// </summary>
     public class UsernamePasswordCredential
     {
         private string _password;
@@ -12,6 +16,9 @@ namespace CrmCross.Authentication
             UserCredential = new UserCredential(username, password);
         }
 
+        /// <summary>
+        /// The username.
+        /// </summary>
         public string Username
         {
             get
@@ -24,6 +31,9 @@ namespace CrmCross.Authentication
             }
         }
 
+        /// <summary>
+        /// The password.
+        /// </summary>
         public string Password
         {
             get
@@ -37,6 +47,9 @@ namespace CrmCross.Authentication
             }
         }
 
+        /// <summary>
+        /// The ADAL UserCredential.
+        /// </summary>
         public UserCredential UserCredential { get; set; }
 
     }

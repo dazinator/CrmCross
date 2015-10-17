@@ -40,8 +40,10 @@ namespace CrmCross.Tests
 
             var tokenResult = await tokenProvider.GetAuthenticateTokenAsync().ConfigureAwait(false); 
             Assert.That(tokenResult, Is.Not.Null);
+            Assert.That(tokenResult.Success);
             Assert.That(tokenResult.AccessToken, Is.Not.Null);
-
+            Assert.That(tokenResult.AccessToken, Is.Not.EqualTo(string.Empty));
+            System.Diagnostics.Debug.WriteLine(tokenResult.AccessToken);
             //  Console.WriteLine(tokenResult.AccessToken);
 
         }

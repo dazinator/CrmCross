@@ -8,8 +8,8 @@ using CrmCross.Authentication;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using CrmCross.Tests;
 using System.Threading.Tasks;
-using PortableCrmSdk.Authentication;
-using PortableCrmSdk.Http;
+using CrmCross.Authentication;
+using CrmCross.Http;
 
 namespace CrmCross.Droid
 {
@@ -71,8 +71,7 @@ namespace CrmCross.Droid
         private async Task LogInUser(string username, string password)
         {
             // Before we attempt token aquisition, set a username and password.
-            _authDetailsProvider.UserCredentials.Username = username;
-            _authDetailsProvider.UserCredentials.Password = password;
+            _authDetailsProvider.UserCredentials = new UsernamePasswordCredential(username, password);          
 
             var tokenResult = await _authTokenProvider.GetAuthenticateTokenAsync();
             var accessTokenText = this.FindViewById<TextView>(Resource.Id.accessToken);
