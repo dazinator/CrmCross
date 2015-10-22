@@ -11,14 +11,14 @@ namespace CrmCross.Android.Tests
 
         public MainActivity()
         {
-            Instance = this;
+           // Instance = this;         
         }
 
-        public static TestSuiteActivity Instance;
+      //  public static TestSuiteActivity Instance;
 
         protected override void OnCreate(Bundle bundle)
         {
-            Instance = this;
+            //Instance = this;
 
             // tests can be inside the main assembly
             AddTest(Assembly.GetExecutingAssembly());           
@@ -31,7 +31,7 @@ namespace CrmCross.Android.Tests
 
         protected override void OnDestroy()
         {
-            Instance = null;
+           // Instance = null;
             base.OnDestroy();
         }
     }

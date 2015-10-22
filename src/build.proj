@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="windows-1252"?>
-<Project ToolsVersion="4.0"         
+<Project ToolsVersion="4.0"
          xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <PropertyGroup>   
+  <PropertyGroup>
     <!--The version number of the assembly info-->
     <AssemblyVersionNumber Condition="$(AssemblyVersionNumber) == ''"></AssemblyVersionNumber>
     <!--The build number, if present will be appended as fourth digit in nuget package version number.-->
@@ -18,65 +18,26 @@
     <NuspecFileName>$(SolutionDir)\PortableCrmSdk\CrmCross.nuspec</NuspecFileName>
 
     <!-- For Android Unit Testing -->
+    <RunAndroidTestsAssemblyPath>$(SolutionDir)\CrmCross.BuildTasks\bin\Debug</RunAndroidTestsAssemblyPath>
     <AndroidSDKPath Condition="$(AndroidSDKPath) == ''">C:\Program Files (x86)\Android\android-sdk</AndroidSDKPath>
-    <AndroidDebugBridgeExePath Condition="$(AndroidDebugBridgeExePath) == ''">$(AndroidSDKPath)\platform-tools\adb</AndroidDebugBridgeExePath>
+    <AndroidDebugBridgeExePath Condition="$(AndroidDebugBridgeExePath) == ''">$(AndroidSDKPath)\platform-tools\adb.exe</AndroidDebugBridgeExePath>
     <AndroidSDKToolsPath Condition="$(AndroidSDKToolsPath) == ''">$(AndroidSDKPath.Trim('\\'))\tools</AndroidSDKToolsPath>
     <AndroidExePath Condition="$(AndroidExePath) == ''">$(AndroidSDKToolsPath)\android</AndroidExePath>
-    <AndroidEmulatorExePath Condition="$(AndroidEmulatorExePath) == ''">$(AndroidSDKToolsPath)\emulator</AndroidEmulatorExePath>   
+    <AndroidEmulatorExePath Condition="$(AndroidEmulatorExePath) == ''">$(AndroidSDKToolsPath)\emulator.exe</AndroidEmulatorExePath>
     <AndroidAvdName Condition="$(AndroidAvdName) == ''">AVD_GalaxyNexus_ToolsForApacheCordova</AndroidAvdName>
     <AndroidTestsProject Condition="$(AndroidTestsProjectPath) == ''">$(SolutionDir)\CrmCross.Android.Tests\CrmCross.Android.Tests.csproj</AndroidTestsProject>
     <AndroidTestsManifestPackageName Condition="$(AndroidTestsManifestPackageName) == ''">crmcross.android.tests</AndroidTestsManifestPackageName>
-    <AndroidTestsApkPath Condition="$(AndroidTestsPackageName) == ''">$(SolutionDir)\CrmCross.Android.Tests\bin\release\crmcross.android.tests-signed.apk</AndroidTestsApkPath>
+    <AndroidTestsApkPath Condition="$(AndroidTestsApkPath) == ''">$(SolutionDir)\CrmCross.Android.Tests\bin\release\crmcross.android.tests-Signed.apk</AndroidTestsApkPath>
     <AndroidTestsInstrumentationClassPath Condition="$(AndroidTestsInstrumentationClassPath) == ''">crmcross.android.tests.TestInstrumentation</AndroidTestsInstrumentationClassPath>
 
   </PropertyGroup>
 
-  <!--Launch a Process in Parallel-->
-  <UsingTask TaskName="ExecAsync" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
-    <ParameterGroup>
-      <!--The file path is the full path to the executable file to run-->
-      <FilePath ParameterType="System.String" Required="true" />
-      <!--The arguments should contain all the command line arguments that need to be sent to the application-->
-      <Arguments ParameterType="System.String" Required="true" />
-    </ParameterGroup>
-    <Task>
-      <Code Type="Fragment" Language="cs">
-        <![CDATA[
-  string name = System.IO.Path.GetFileNameWithoutExtension(FilePath);
-  Log.LogMessage("Starting {0}...", name);        
-  System.Diagnostics.ProcessStartInfo processStartInfo = new System.Diagnostics.ProcessStartInfo(FilePath, Arguments);
-  processStartInfo.UseShellExecute = true;
-  System.Diagnostics.Process.Start(processStartInfo);
-  Log.LogMessage("Finished running process {0}.", name);
-  ]]>
-      </Code>
-    </Task>
-  </UsingTask>
 
-  <!--Launch a Process in Parallel-->
-  <UsingTask TaskName="Sleep" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
-    <ParameterGroup>
-      <!--The number of seconds to sleep for-->
-      <Seconds ParameterType="System.Int32" Required="true" />    
-    </ParameterGroup>
-    <Task>
-      <Code Type="Fragment" Language="cs">
-        <![CDATA[
-        TimeSpan sleepTime = new TimeSpan(0, 0, 0, Seconds, 0);
-        Log.LogMessage(MessageImportance.Normal, "Sleeping for {0}.", sleepTime);
-        System.Threading.Thread.Sleep(sleepTime);
-        return true;  
-  ]]>
-      </Code>
-    </Task>
-  </UsingTask>
+  <UsingTask TaskName="CrmCross.BuildTasks.RunAndroidTests" AssemblyFile="$(RunAndroidTestsAssemblyPath)\CrmCross.BuildTasks.dll" />
 
   <Target Name="RunUnitTestsOnAndroid">
 
-    <PropertyGroup>           
-      <InstallTestsApkCommand Condition="$(InstallTestsApkCommand) == ''">&quot;$(AndroidDebugBridgeExePath)&quot; install -r &quot;$(AndroidTestsApkPath)&quot;</InstallTestsApkCommand>
-      <RunTestsCommand Condition="$(RunTestsCommand) == ''">&quot;$(AndroidDebugBridgeExePath)&quot; shell am instrument -w $(AndroidTestsManifestPackageName)/$(AndroidTestsInstrumentationClassPath)</RunTestsCommand>
-     </PropertyGroup>    
+
     <!--Build the tests apk-->
     <ItemGroup>
       <ProjectReferences Include="$(AndroidTestsProject)" />
@@ -89,22 +50,26 @@
           TaskParameter="TargetOutputs"
           ItemName="AssembliesBuiltByChildProjects" />
     </MSBuild>
-   
-    <ExecAsync FilePath='$(AndroidEmulatorExePath)' Arguments='-avd $(AndroidAvdName) -no-boot-anim' ContinueOnError='true'/>
- 
-    <!--Let the emulator finish starting up-->
-    <Message Text="Waiting for emulator to finish starting..."/>
-    <Sleep Seconds='120' ContinueOnError='true'/>   
-
-    <!--Install the apk -->
-    <Message Text="Installing tests apk."/>
-    <Exec Command="$(InstallTestsApkCommand)" IgnoreExitCode="true" />  
-
-    <!--Run tests -->
-    <Exec Command="$(RunTestsCommand)" />
-
-    <!--TODO: Kill emulator -->
     
+    
+    <PropertyGroup>
+      <TestOutput></TestOutput>
+    </PropertyGroup>
+
+    <RunAndroidTests
+      EmulatorExePath="$(AndroidEmulatorExePath)"
+      AdbExePath="$(AndroidDebugBridgeExePath)"
+      ApkPath="$(AndroidTestsApkPath)"
+      AvdName="$(AndroidAvdName)"
+      ApkPackageName="$(AndroidTestsManifestPackageName)"
+      TestInstrumentationClassPath="$(AndroidTestsInstrumentationClassPath)"
+      EmulatorStartupWaitTimeInSeconds="90"
+      >
+      <Output TaskParameter="Output" ItemName="TestOutput"/>
+    </RunAndroidTests>
+
+    <Message Text="@(TestOutput)"/>
+  
 
   </Target>
 
@@ -122,7 +87,7 @@
           TaskParameter="TargetOutputs"
           ItemName="AssembliesBuiltByChildProjects" />
     </MSBuild>
-  </Target> 
+  </Target>
 
   <!--Reads the assembly version number.-->
   <Target Name="GetPackageVersionNumber" Condition="$(PackageVersionNumber) == ''">

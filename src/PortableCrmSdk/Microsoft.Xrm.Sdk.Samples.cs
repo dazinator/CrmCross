@@ -714,8 +714,8 @@ namespace CrmCross
         #region helpercode
 
         // To make this project Xamarin compatible, you need to comment out this method.
-        public async Task EnableProxyTypes()
-        {
+        //public async Task EnableProxyTypes()
+        //{
             //List<TypeInfo> typeList = new List<TypeInfo>();
             //// Obtain folder of executing application.
             //var folder = Package.Current.InstalledLocation;
@@ -735,7 +735,7 @@ namespace CrmCross
             //    }
             //}
             //types = typeList.ToArray();
-        }
+       // }
 
         /// <summary>
         /// Create HTTPRequest and returns the HTTPRequestMessage.
@@ -1177,7 +1177,7 @@ namespace CrmCross
                 {
                     return (T)this.Attributes[attributeLogicalName];
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {                
                     return default(T);
                 }

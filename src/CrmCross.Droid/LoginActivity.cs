@@ -8,7 +8,6 @@ using CrmCross.Authentication;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using CrmCross.Tests;
 using System.Threading.Tasks;
-using CrmCross.Authentication;
 using CrmCross.Http;
 
 namespace CrmCross.Droid

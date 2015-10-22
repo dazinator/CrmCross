@@ -1,6 +1,7 @@
 ﻿using Microsoft.Build.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -15,8 +16,7 @@ namespace CrmCross.BuildTasks
         {
             this.StartEmulatorArgumentsFormatString = "-avd {0} -no-boot-anim";
             this.InstallApkArgumentsFormatString = "install -r \"{0}\"";
-            this.RunTestsArgumentsFormatString  = "shell am instrument -w {0}/{1}";         
-
+            this.RunTestsArgumentsFormatString = "shell am instrument -w {0}/{1}";
         }
 
         /// <summary>
@@ -81,62 +81,139 @@ namespace CrmCross.BuildTasks
         /// </summary>
         [Output]
         public string Output { get; set; }
-          
 
         public override bool ExecuteTask()
         {
 
-            string name = System.IO.Path.GetFileNameWithoutExtension(EmulatorExePath);
+            string name = Path.GetFileNameWithoutExtension(EmulatorExePath);
             this.LogMessage(string.Format("Starting emulator: {0}...", name));
 
             string emulatorArgs = GetEmulatorArgs();
-            var emulatorProcess = new System.Diagnostics.ProcessStartInfo(EmulatorExePath, emulatorArgs);
-            emulatorProcess.UseShellExecute = true;
-            using (var process = System.Diagnostics.Process.Start(emulatorProcess))
+            var emulatorProcess = new ProcessStartInfo(EmulatorExePath, emulatorArgs);
+            emulatorProcess.UseShellExecute = false;
+            emulatorProcess.CreateNoWindow = true;
+            
+            using (var process = Process.Start(emulatorProcess))
             {
 
-                // wait for emulator to load.
-                var sleepTime = new TimeSpan(0, 0, 0, EmulatorStartupWaitTimeInSeconds, 0);
-                LogMessage(string.Format("Waiting for emulator to load up. {0} (hh:mm:ss) ", sleepTime), MessageImportance.Normal);
-                System.Threading.Thread.Sleep(sleepTime);
-
-                var installApkArgs = GetInstallApkArgs();
-                var adbProcess = new System.Diagnostics.ProcessStartInfo(AdbExePath, installApkArgs);
-                adbProcess.UseShellExecute = true;
-                using (var installApkProcess = System.Diagnostics.Process.Start(adbProcess))
+                try
                 {
+                    // wait for emulator to load.
+                    var sleepTime = new TimeSpan(0, 0, 0, EmulatorStartupWaitTimeInSeconds, 0);
+                    LogMessage(string.Format("Waiting for emulator to load up. {0} (hh:mm:ss) ", sleepTime), MessageImportance.Normal);
+                    System.Threading.Thread.Sleep(sleepTime);
 
-                    installApkProcess.WaitForExit();
-                    if(installApkProcess.ExitCode != 0)
+                    var installApkArgs = GetInstallApkArgs();
+
+                    var adbInstallApkProcessStartInfo = new ProcessStartInfo(AdbExePath, installApkArgs);
+                    LogMessage(string.Format("AdbExePath is: {0} ", AdbExePath), MessageImportance.Normal);
+                    LogMessage(string.Format("InstallApkArgs are: {0} ", installApkArgs), MessageImportance.Normal);
+
+                    adbInstallApkProcessStartInfo.UseShellExecute = false;
+                    adbInstallApkProcessStartInfo.RedirectStandardOutput = true;
+                    adbInstallApkProcessStartInfo.RedirectStandardError = true;
+
+                    using (var adbInstallApkProcess = Process.Start(adbInstallApkProcessStartInfo))
                     {
-                        LogMessage(string.Format("Unable to install test apk. Adb args was: {0}", installApkArgs), MessageImportance.High);
-                        return false;
-                    }                
+                        LogMessage(string.Format("Installing tests apk: {0}", ApkPath), MessageImportance.Normal);
 
-                }
+                        var outputData = new StringBuilder();
+                        var errorData = new StringBuilder();
 
-                string runTestsArgs = GetRunTestsArgs();
-                adbProcess = new System.Diagnostics.ProcessStartInfo(AdbExePath, runTestsArgs);
-                using (var runTestsProcess = System.Diagnostics.Process.Start(adbProcess))
-                {
+                        adbInstallApkProcess.OutputDataReceived += (object sender, DataReceivedEventArgs e) => outputData.AppendLine(e.Data);
+                        adbInstallApkProcess.BeginOutputReadLine();
 
-                    runTestsProcess.WaitForExit();
+                        adbInstallApkProcess.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => errorData.AppendLine(e.Data);
+                        adbInstallApkProcess.BeginErrorReadLine();
 
-                    var output = runTestsProcess.StandardOutput.ReadToEnd();
-                    this.Output = output;
+                        adbInstallApkProcess.WaitForExit();
 
-                    if (runTestsProcess.ExitCode != 0)
-                    {
-                        LogMessage(string.Format("Tests failed: {0}", runTestsArgs), MessageImportance.High);
-                        return false;
+                        LogMessage(string.Format("Adb install apk exited, Output Data was: {0}", outputData), MessageImportance.High);
+                        LogMessage(string.Format("Adb install apk exited, Error Data: {0}", errorData), MessageImportance.High);
+
+                        if (adbInstallApkProcess.ExitCode != 0)
+                        {
+                            LogMessage("Unable to install test apk", MessageImportance.High);
+                            return false;
+                        }
                     }
 
-                    return true;       
 
 
+                    string runTestsArgs = GetRunTestsArgs();
+                    LogMessage(string.Format("run tests args: {0}", runTestsArgs), MessageImportance.Normal);
+                    LogMessage(string.Format("adb exe path: {0}", AdbExePath), MessageImportance.Normal);
+
+
+                    var adbRunTestsProcessStartInfo = new ProcessStartInfo(AdbExePath, runTestsArgs);
+                    //adbProcessStartInfo.Arguments = runTestsArgs;
+                    adbRunTestsProcessStartInfo.UseShellExecute = false;
+                    // adbProcessStartInfo.RedirectStandardInput = true;
+                    adbRunTestsProcessStartInfo.RedirectStandardOutput = true;
+                    adbRunTestsProcessStartInfo.RedirectStandardError = true;
+
+                    LogMessage("Starting process..", MessageImportance.Normal);
+                    using (var runTestsProcess = Process.Start(adbRunTestsProcessStartInfo))
+                    {
+                        LogMessage("Redirecting output and error..", MessageImportance.Normal);
+                        var outputData = new StringBuilder();
+                        var errorData = new StringBuilder();
+
+                        runTestsProcess.OutputDataReceived += (object sender, DataReceivedEventArgs e) => outputData.AppendLine(e.Data);
+                        runTestsProcess.BeginOutputReadLine();
+
+                        runTestsProcess.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => errorData.AppendLine(e.Data);
+                        runTestsProcess.BeginErrorReadLine();
+
+                        // StreamReader read = runTestsProcess.StandardOutput;
+                        LogMessage("Waiting for exit..", MessageImportance.Normal);
+                        runTestsProcess.WaitForExit();
+                        LogMessage(string.Format("TESTS OUTPUT WAS: {0}", outputData), MessageImportance.High);
+
+                        if(errorData.Length > 0)
+                        {
+                            LogMessage(string.Format("TESTS ERROR OUTPUT: {0}", errorData), MessageImportance.High);
+                        }                      
+
+                    
+                        LogMessage("Checking exit code..", MessageImportance.Normal);
+
+                        try
+                        {
+                            if (runTestsProcess.ExitCode != 0)
+                            {
+                                LogMessage(string.Format("Running tests errored: {0}", runTestsArgs), MessageImportance.High);
+                                return false;
+                            }
+
+                            // need to detect if any tests failed.
+
+                          
+                           // runTestsProcess.Close();
+
+                            return true;
+                        }
+                        catch (Exception e)
+                        {
+                            LogMessage(string.Format("Error checking exit code: {0}", e.ToString()), MessageImportance.High);
+                            throw;
+                        }
+
+
+                    }
                 }
-
-            }          
+                catch (Exception e)
+                {
+                    LogMessage(string.Format("Error: {0}", e.ToString()), MessageImportance.High);
+                    throw;
+                }
+                finally
+                {
+                    var closed = process.CloseMainWindow();
+                    process.Close();
+                    process.Kill();
+                }
+            }
 
         }
 
