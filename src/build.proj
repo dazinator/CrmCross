@@ -16,62 +16,9 @@
     <PackageOutputDir Condition="$(PackageOutputDir) != ''">$(PackageOutputDir.Trim('\\'))</PackageOutputDir>
     <NuGetExe>$(SolutionDir)\..\tools\NuGet.CommandLine.2.8.6\tools\NuGet.exe</NuGetExe>
     <NuspecFileName>$(SolutionDir)\PortableCrmSdk\CrmCross.nuspec</NuspecFileName>
-
-    <!-- For Android Unit Testing -->
-    <RunAndroidTestsAssemblyPath>$(SolutionDir)\CrmCross.BuildTasks\bin\Debug</RunAndroidTestsAssemblyPath>
-    <AndroidSDKPath Condition="$(AndroidSDKPath) == ''">C:\Program Files (x86)\Android\android-sdk</AndroidSDKPath>
-    <AndroidDebugBridgeExePath Condition="$(AndroidDebugBridgeExePath) == ''">$(AndroidSDKPath)\platform-tools\adb.exe</AndroidDebugBridgeExePath>
-    <AndroidSDKToolsPath Condition="$(AndroidSDKToolsPath) == ''">$(AndroidSDKPath.Trim('\\'))\tools</AndroidSDKToolsPath>
-    <AndroidExePath Condition="$(AndroidExePath) == ''">$(AndroidSDKToolsPath)\android</AndroidExePath>
-    <AndroidEmulatorExePath Condition="$(AndroidEmulatorExePath) == ''">$(AndroidSDKToolsPath)\emulator.exe</AndroidEmulatorExePath>
-    <AndroidAvdName Condition="$(AndroidAvdName) == ''">AVD_GalaxyNexus_ToolsForApacheCordova</AndroidAvdName>
-    <AndroidTestsProject Condition="$(AndroidTestsProjectPath) == ''">$(SolutionDir)\CrmCross.Android.Tests\CrmCross.Android.Tests.csproj</AndroidTestsProject>
-    <AndroidTestsManifestPackageName Condition="$(AndroidTestsManifestPackageName) == ''">crmcross.android.tests</AndroidTestsManifestPackageName>
-    <AndroidTestsApkPath Condition="$(AndroidTestsApkPath) == ''">$(SolutionDir)\CrmCross.Android.Tests\bin\release\crmcross.android.tests-Signed.apk</AndroidTestsApkPath>
-    <AndroidTestsInstrumentationClassPath Condition="$(AndroidTestsInstrumentationClassPath) == ''">crmcross.android.tests.TestInstrumentation</AndroidTestsInstrumentationClassPath>
-
   </PropertyGroup>
 
-
-  <UsingTask TaskName="CrmCross.BuildTasks.RunAndroidTests" AssemblyFile="$(RunAndroidTestsAssemblyPath)\CrmCross.BuildTasks.dll" />
-
-  <Target Name="RunUnitTestsOnAndroid">
-
-
-    <!--Build the tests apk-->
-    <ItemGroup>
-      <ProjectReferences Include="$(AndroidTestsProject)" />
-    </ItemGroup>
-    <MSBuild
-        Projects="@(ProjectReferences)"
-        Properties="Configuration=Release"
-        Targets="SignAndroidPackage">
-      <Output
-          TaskParameter="TargetOutputs"
-          ItemName="AssembliesBuiltByChildProjects" />
-    </MSBuild>
-    
-    
-    <PropertyGroup>
-      <TestOutput></TestOutput>
-    </PropertyGroup>
-
-    <RunAndroidTests
-      EmulatorExePath="$(AndroidEmulatorExePath)"
-      AdbExePath="$(AndroidDebugBridgeExePath)"
-      ApkPath="$(AndroidTestsApkPath)"
-      AvdName="$(AndroidAvdName)"
-      ApkPackageName="$(AndroidTestsManifestPackageName)"
-      TestInstrumentationClassPath="$(AndroidTestsInstrumentationClassPath)"
-      EmulatorStartupWaitTimeInSeconds="90"
-      >
-      <Output TaskParameter="Output" ItemName="TestOutput"/>
-    </RunAndroidTests>
-
-    <Message Text="@(TestOutput)"/>
   
-
-  </Target>
 
   <!--Builds the project targeting .NET 4.0.-->
   <Target Name="BuildRelease">
