@@ -57,6 +57,30 @@ namespace CrmCross.Android.Tests
 			global::Microsoft.IdentityModel.Clients.ActiveDirectory.Resource.Layout.WebAuthenticationBroker = global::CrmCross.Android.Tests.Resource.Layout.WebAuthenticationBroker;
 			global::Microsoft.IdentityModel.Clients.ActiveDirectory.Resource.String.ApplicationName = global::CrmCross.Android.Tests.Resource.String.ApplicationName;
 			global::ModernHttpClient.Resource.String.library_name = global::CrmCross.Android.Tests.Resource.String.library_name;
+			global::TestyDroid.Android.Resource.Id.OptionHostName = global::CrmCross.Android.Tests.Resource.Id.OptionHostName;
+			global::TestyDroid.Android.Resource.Id.OptionPort = global::CrmCross.Android.Tests.Resource.Id.OptionPort;
+			global::TestyDroid.Android.Resource.Id.OptionRemoteServer = global::CrmCross.Android.Tests.Resource.Id.OptionRemoteServer;
+			global::TestyDroid.Android.Resource.Id.OptionsButton = global::CrmCross.Android.Tests.Resource.Id.OptionsButton;
+			global::TestyDroid.Android.Resource.Id.ResultFullName = global::CrmCross.Android.Tests.Resource.Id.ResultFullName;
+			global::TestyDroid.Android.Resource.Id.ResultMessage = global::CrmCross.Android.Tests.Resource.Id.ResultMessage;
+			global::TestyDroid.Android.Resource.Id.ResultResultState = global::CrmCross.Android.Tests.Resource.Id.ResultResultState;
+			global::TestyDroid.Android.Resource.Id.ResultRunSingleMethodTest = global::CrmCross.Android.Tests.Resource.Id.ResultRunSingleMethodTest;
+			global::TestyDroid.Android.Resource.Id.ResultStackTrace = global::CrmCross.Android.Tests.Resource.Id.ResultStackTrace;
+			global::TestyDroid.Android.Resource.Id.ResultsFailed = global::CrmCross.Android.Tests.Resource.Id.ResultsFailed;
+			global::TestyDroid.Android.Resource.Id.ResultsId = global::CrmCross.Android.Tests.Resource.Id.ResultsId;
+			global::TestyDroid.Android.Resource.Id.ResultsIgnored = global::CrmCross.Android.Tests.Resource.Id.ResultsIgnored;
+			global::TestyDroid.Android.Resource.Id.ResultsInconclusive = global::CrmCross.Android.Tests.Resource.Id.ResultsInconclusive;
+			global::TestyDroid.Android.Resource.Id.ResultsMessage = global::CrmCross.Android.Tests.Resource.Id.ResultsMessage;
+			global::TestyDroid.Android.Resource.Id.ResultsPassed = global::CrmCross.Android.Tests.Resource.Id.ResultsPassed;
+			global::TestyDroid.Android.Resource.Id.ResultsResult = global::CrmCross.Android.Tests.Resource.Id.ResultsResult;
+			global::TestyDroid.Android.Resource.Id.RunTestsButton = global::CrmCross.Android.Tests.Resource.Id.RunTestsButton;
+			global::TestyDroid.Android.Resource.Id.TestSuiteListView = global::CrmCross.Android.Tests.Resource.Id.TestSuiteListView;
+			global::TestyDroid.Android.Resource.Layout.options = global::CrmCross.Android.Tests.Resource.Layout.options;
+			global::TestyDroid.Android.Resource.Layout.results = global::CrmCross.Android.Tests.Resource.Layout.results;
+			global::TestyDroid.Android.Resource.Layout.test_result = global::CrmCross.Android.Tests.Resource.Layout.test_result;
+			global::TestyDroid.Android.Resource.Layout.test_suite = global::CrmCross.Android.Tests.Resource.Layout.test_suite;
+			global::TestyDroid.Android.Resource.String.ApplicationName = global::CrmCross.Android.Tests.Resource.String.ApplicationName;
+			global::TestyDroid.Android.Resource.String.Hello = global::CrmCross.Android.Tests.Resource.String.Hello;
 			global::Xamarin.Android.NUnitLite.Resource.Id.OptionHostName = global::CrmCross.Android.Tests.Resource.Id.OptionHostName;
 			global::Xamarin.Android.NUnitLite.Resource.Id.OptionPort = global::CrmCross.Android.Tests.Resource.Id.OptionPort;
 			global::Xamarin.Android.NUnitLite.Resource.Id.OptionRemoteServer = global::CrmCross.Android.Tests.Resource.Id.OptionRemoteServer;
@@ -214,11 +238,11 @@ namespace CrmCross.Android.Tests
 			// aapt resource value: 0x7f040001
 			public const int ApplicationName = 2130968577;
 			
-			// aapt resource value: 0x7f040002
-			public const int Hello = 2130968578;
-			
 			// aapt resource value: 0x7f040000
-			public const int library_name = 2130968576;
+			public const int Hello = 2130968576;
+			
+			// aapt resource value: 0x7f040002
+			public const int library_name = 2130968578;
 			
 			static String()
 			{
