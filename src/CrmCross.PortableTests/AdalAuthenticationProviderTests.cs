@@ -80,18 +80,7 @@ namespace CrmCross.Tests
             System.Diagnostics.Debug.WriteLine(result.AccessToken);                   
 
         }
-
-        [TestCase()]
-        public void This_Always_Fails()
-        {
-            Assert.Fail("You really messed something up..");
-        }
-
-        [TestCase()]
-        public void This_Always_Succeeds()
-        {
-         
-        }
+              
 
         #region Platform Specific Dependencies
         protected abstract IAuthenticationDetailsProvider GetAuthenticationDetailsProvider();
