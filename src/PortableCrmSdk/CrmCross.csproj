@@ -56,6 +56,7 @@
     <Compile Include="Authentication\IAuthenticationTokenResult.cs" />
     <Compile Include="Authentication\IPlatform.cs" />
     <Compile Include="Authentication\UsernamePasswordCredential.cs" />
+    <Compile Include="Http\DefaultHttpClientFactory.cs" />
     <Compile Include="Http\IHttpClientFactory.cs" />
     <Compile Include="IOrganizationService.cs" />
     <Compile Include="Microsoft.Crm.Sdk.Messages.Samples.cs" />

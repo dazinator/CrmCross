@@ -101,6 +101,7 @@
     <Compile Include="FileSystem.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="DroidAdalAuthenticationTokenProviderTests.cs" />
+    <Compile Include="DroidOrganizationDataWebServiceProxyTests.cs" />
     <Compile Include="TestActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

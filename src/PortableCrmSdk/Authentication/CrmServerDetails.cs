@@ -8,6 +8,9 @@ namespace CrmCross.Authentication
     public class CrmServerDetails
     {
         public const string DefaultOrganisationWebservicePath = "/XRMServices/2011/Organization.svc";
+        public const string DefaultOrganisationRestEndpointPath = "/XRMServices/2011/OrganizationData.svc";
+       
+
         private readonly static Version SdkClientVersion = new Version("7.0.0.0");
 
         /// <summary>
@@ -23,18 +26,22 @@ namespace CrmCross.Authentication
                 throw new ArgumentNullException("crmWebsiteUrl");
             }
             CrmWebsiteUrl = crmWebsiteUrl;
+            var slashChars = new char[] { '/', '\\' };
             if (organisationWebServiceUrl == null)
-            {
-                var slashChars = new char[] { '/', '\\' };
+            {              
                 organisationWebServiceUrl = new Uri(String.Format("{0}{1}", crmWebsiteUrl.ToString().TrimEnd(slashChars), DefaultOrganisationWebservicePath));
             }
             OrganisationWebServiceUrl = organisationWebServiceUrl;
+            OrganisationWebEndpointUrl = new Uri(String.Format("{0}/web", OrganisationWebServiceUrl));
+
             if (authenticationEndpointUrl == null)
             {
-                string authEndpointUrl = string.Format("{0}/web?SdkClientVersion={1}", OrganisationWebServiceUrl, SdkClientVersion.ToString());
+                string authEndpointUrl = string.Format("{0}?SdkClientVersion={1}", OrganisationWebEndpointUrl, SdkClientVersion.ToString());
                 authenticationEndpointUrl = new Uri(authEndpointUrl);
             }
-            AuthenticationEndpointUrl = authenticationEndpointUrl;
+            AuthenticationEndpointUrl = authenticationEndpointUrl;          
+            OrganisationRestEndpointUrl = new Uri(String.Format("{0}{1}", crmWebsiteUrl.ToString().TrimEnd(slashChars), DefaultOrganisationRestEndpointPath));
+           
         }
 
         /// <summary>
@@ -48,9 +55,23 @@ namespace CrmCross.Authentication
         public Uri OrganisationWebServiceUrl { get; set; }
 
         /// <summary>
+        /// The Uri of the Crm Organisation Rest Endpoint.
+        /// </summary>
+        public Uri OrganisationRestEndpointUrl { get; set; }
+
+        /// <summary>
+        /// The Uri of the Crm Organisation Rest Endpoint.
+        /// </summary>
+        public Uri OrganisationWebEndpointUrl { get; set; }
+
+
+        /// <summary>
         /// The Dynamics CRM Authentication Endpoint URI.
         /// </summary>
         public Uri AuthenticationEndpointUrl { get; set; }
+
+       
+
     }
 
 }

@@ -41,6 +41,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OrganizationDataWebServiceProxyTests.cs" />
     <Compile Include="AdalAuthenticationProviderTests.cs" />
     <Compile Include="IFileSytem.cs" />
     <Compile Include="TestConfig.cs" />

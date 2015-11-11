@@ -14,6 +14,7 @@
 // =====================================================================
 
 using CrmCross.Authentication;
+using CrmCross.Http;
 using Newtonsoft.Json;      // Used in the REST methods
 using Newtonsoft.Json.Linq; // Used in the REST methods
 using System;
@@ -50,13 +51,11 @@ namespace CrmCross
     {
         #region class members
 
-        IAuthenticationTokenProvider _authenticationTokenProvider = null;
+        private IAuthenticationTokenProvider _authenticationTokenProvider = null;
+        private IHttpClientFactory _httpClientFactory = null;    
+        private CrmServerDetails _crmServerDetails = null;
 
-        private const string webEndpoint = "/XRMServices/2011/Organization.svc/web";
-        private const string restEndpoint = "/XRMServices/2011/OrganizationData.svc/";
-
-        public string ServiceUrl;
-        //  public string AccessToken; // can be private, but not sure if user want to access it.
+        // public string ServiceUrl;
         public Guid CallerId;
         public int TimeoutInSeconds;
 
@@ -64,14 +63,37 @@ namespace CrmCross
 
         #endregion class members
 
-        public OrganizationDataWebServiceProxy(IAuthenticationTokenProvider authenticationTokenProvider)
+        #region constructor
+
+        public OrganizationDataWebServiceProxy(CrmServerDetails crmServer, IAuthenticationTokenProvider authenticationTokenProvider)
+            : this(crmServer, authenticationTokenProvider, new DefaultHttpClientFactory())
         {
-            if (_authenticationTokenProvider == null)
+
+        }
+
+        public OrganizationDataWebServiceProxy(CrmServerDetails crmServerDetails, IAuthenticationTokenProvider authenticationTokenProvider, IHttpClientFactory httpClientFactory)
+        {
+            if (authenticationTokenProvider == null)
             {
                 throw new ArgumentNullException("authenticationTokenProvider");
             }
+
+            if (httpClientFactory == null)
+            {
+                throw new ArgumentNullException("httpClientFactory");
+            }
+
+            if (crmServerDetails == null)
+            {
+                throw new ArgumentNullException("crmServerDetails");
+            }
+
+            _httpClientFactory = httpClientFactory;
             _authenticationTokenProvider = authenticationTokenProvider;
+            _crmServerDetails = crmServerDetails;
         }
+
+        #endregion
 
         #region IOrganizationService Soap Methods
 
@@ -85,37 +107,55 @@ namespace CrmCross
 
         public Guid Create(Entity entity)
         {
-            throw new NotImplementedException();
+            var result = AsyncHelper.RunSync(() => CreateAsync(entity));
+            return result;
+
+            //var task = this.CreateAsync(entity);
+            // task.Wait();
+            // return task.Result;
         }
 
         public void Delete(string entityName, Guid id)
         {
-            throw new NotImplementedException();
+            var task = this.DeleteAsync(entityName, id);
+            task.Wait();
         }
 
         public void Disassociate(string entityName, Guid entityId, Relationship relationship, EntityReferenceCollection relatedEntities)
         {
-            throw new NotImplementedException();
+            var task = this.DisassociateAsync(entityName, entityId, relationship, relatedEntities);
+            task.Wait();
         }
 
         public OrganizationResponse Execute(OrganizationRequest request)
         {
-            throw new NotImplementedException();
+
+            var result = AsyncHelper.RunSync(() => ExecuteAsync(request));
+            return result;
+
+            //var task = this.ExecuteAsync(request);
+            //task.Wait();
+            //return task.Result;
         }
 
         public Entity Retrieve(string entityName, Guid id, ColumnSet columnSet)
         {
-            throw new NotImplementedException();
+            var task = this.RetrieveAsync(entityName, id, columnSet);
+            task.Wait();
+            return task.Result;
         }
 
         public EntityCollection RetrieveMultiple(QueryBase query)
         {
-            throw new NotImplementedException();
+            var task = this.RetrieveMultipleAsync(query);
+            task.Wait();
+            return task.Result;
         }
 
         public void Update(Entity entity)
         {
-            throw new NotImplementedException();
+            var task = this.UpdateAsync(entity);
+            task.Wait();
         }
 
         /// <summary>
@@ -128,7 +168,7 @@ namespace CrmCross
         public async Task AssociateAsync(string entityName, Guid entityId, Relationship relationship, EntityReferenceCollection relatedEntities)
         {
             // Create HttpClient with Compression enabled.
-            using (HttpClient httpClient = new HttpClient(new HttpClientHandler() { AutomaticDecompression = System.Net.DecompressionMethods.GZip }))
+            using (HttpClient httpClient = GetHttpClient())
             {
                 string SOAPAction = "http://schemas.microsoft.com/xrm/2011/Contracts/Services/IOrganizationService/Associate";
 
@@ -162,6 +202,7 @@ namespace CrmCross
                 }
             }
         }
+
         /// <summary>
         /// Creates a record.
         /// </summary>
@@ -170,7 +211,7 @@ namespace CrmCross
         public async Task<Guid> CreateAsync(Entity entity)
         {
             // Create HttpClient with Compression enabled.
-            using (HttpClient httpClient = new HttpClient(new HttpClientHandler() { AutomaticDecompression = System.Net.DecompressionMethods.GZip }))
+            using (HttpClient httpClient = GetHttpClient())
             {
                 string SOAPAction = "http://schemas.microsoft.com/xrm/2011/Contracts/Services/IOrganizationService/Create";
 
@@ -209,6 +250,7 @@ namespace CrmCross
                 return createdRecordId;
             }
         }
+
         /// <summary>
         /// Deletes a record.
         /// </summary>
@@ -217,7 +259,7 @@ namespace CrmCross
         public async Task DeleteAsync(string entityName, Guid id)
         {
             // Create HttpClient with Compression enabled.
-            using (HttpClient httpClient = new HttpClient(new HttpClientHandler() { AutomaticDecompression = System.Net.DecompressionMethods.GZip }))
+            using (HttpClient httpClient = GetHttpClient())
             {
                 string SOAPAction = "http://schemas.microsoft.com/xrm/2011/Contracts/Services/IOrganizationService/Delete";
 
@@ -249,6 +291,7 @@ namespace CrmCross
                 }
             }
         }
+
         /// <summary>
         /// Deletes a link between records.
         /// </summary>
@@ -260,7 +303,7 @@ namespace CrmCross
             EntityReferenceCollection relatedEntities)
         {
             // Create HttpClient with Compression enabled.
-            using (HttpClient httpClient = new HttpClient(new HttpClientHandler() { AutomaticDecompression = System.Net.DecompressionMethods.GZip }))
+            using (HttpClient httpClient = GetHttpClient())
             {
                 string SOAPAction = "http://schemas.microsoft.com/xrm/2011/Contracts/Services/IOrganizationService/Disassociate";
 
@@ -296,6 +339,7 @@ namespace CrmCross
 
             }
         }
+
         /// <summary>
         /// Executes a message in the form of a request, and returns a response.
         /// </summary>
@@ -305,7 +349,7 @@ namespace CrmCross
         public async Task<OrganizationResponse> ExecuteAsync(OrganizationRequest request)
         {
             // Create HttpClient with Compression enabled.
-            using (HttpClient httpClient = new HttpClient(new HttpClientHandler() { AutomaticDecompression = System.Net.DecompressionMethods.GZip }))
+            using (HttpClient httpClient = GetHttpClient())
             {
                 string SOAPAction = "http://schemas.microsoft.com/xrm/2011/Contracts/Services/IOrganizationService/Execute";
 
@@ -340,6 +384,7 @@ namespace CrmCross
                 }
             }
         }
+
         /// <summary>
         /// Retrieves a record.
         /// </summary>
@@ -350,7 +395,7 @@ namespace CrmCross
         public async Task<Entity> RetrieveAsync(string entityName, Guid id, ColumnSet columnSet)
         {
             // Create HttpClient with Compression enabled.
-            using (HttpClient httpClient = new HttpClient(new HttpClientHandler() { AutomaticDecompression = System.Net.DecompressionMethods.GZip }))
+            using (HttpClient httpClient = GetHttpClient())
             {
                 string SOAPAction = "http://schemas.microsoft.com/xrm/2011/Contracts/Services/IOrganizationService/Retrieve";
 
@@ -397,6 +442,7 @@ namespace CrmCross
                 return Entity;
             }
         }
+
         /// <summary>
         /// Retrieves a collection of records.
         /// </summary>
@@ -405,7 +451,7 @@ namespace CrmCross
         public async Task<EntityCollection> RetrieveMultipleAsync(QueryBase query)
         {
             // Create HttpClient with Compression enabled.
-            using (HttpClient httpClient = new HttpClient(new HttpClientHandler() { AutomaticDecompression = System.Net.DecompressionMethods.GZip }))
+            using (HttpClient httpClient = GetHttpClient())
             {
                 string SOAPAction = "http://schemas.microsoft.com/xrm/2011/Contracts/Services/IOrganizationService/RetrieveMultiple";
 
@@ -446,6 +492,7 @@ namespace CrmCross
                 return entityCollection;
             }
         }
+
         /// <summary>
         /// Updates an existing record.
         /// </summary>
@@ -453,7 +500,7 @@ namespace CrmCross
         public async Task UpdateAsync(Entity entity)
         {
             // Create HttpClient with Compression enabled.
-            using (HttpClient httpClient = new HttpClient(new HttpClientHandler() { AutomaticDecompression = System.Net.DecompressionMethods.GZip }))
+            using (HttpClient httpClient = GetHttpClient())
             {
                 string SOAPAction = "http://schemas.microsoft.com/xrm/2011/Contracts/Services/IOrganizationService/Update";
 
@@ -497,7 +544,7 @@ namespace CrmCross
         public async Task<Guid> RestCreate(Entity entity)
         {
             // Create HttpClient with Compression enabled.
-            using (HttpClient httpClient = new HttpClient(new HttpClientHandler() { AutomaticDecompression = System.Net.DecompressionMethods.GZip }))
+            using (HttpClient httpClient = GetHttpClient())
             {
                 DataContractJsonSerializer jasonSerializer = new DataContractJsonSerializer(entity.GetType());
                 string json;
@@ -517,7 +564,7 @@ namespace CrmCross
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // Use PostAsync to Post data.
-                HttpResponseMessage response = await httpClient.PostAsync(ServiceUrl + restEndpoint + ODataAction, content);
+                HttpResponseMessage response = await httpClient.PostAsync(_crmServerDetails.OrganisationRestEndpointUrl + ODataAction, content);
 
                 // Check the response result.
                 if (response.IsSuccessStatusCode)
@@ -544,7 +591,7 @@ namespace CrmCross
         public async Task RestDelete(string schemaName, Guid id)
         {
             // Create HttpClient with Compression enabled.
-            using (HttpClient httpClient = new HttpClient(new HttpClientHandler() { AutomaticDecompression = System.Net.DecompressionMethods.GZip }))
+            using (HttpClient httpClient = GetHttpClient())
             {
                 string ODataAction = schemaName + "Set(guid'" + id + "')";
 
@@ -555,7 +602,7 @@ namespace CrmCross
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // Use DeleteAsync to Post data.
-                HttpResponseMessage response = await httpClient.DeleteAsync(ServiceUrl + restEndpoint + ODataAction);
+                HttpResponseMessage response = await httpClient.DeleteAsync(_crmServerDetails.OrganisationRestEndpointUrl +  "/" + ODataAction);
 
                 if (!response.IsSuccessStatusCode)
                     throw new Exception("REST Delete failed.");
@@ -572,7 +619,7 @@ namespace CrmCross
         public async Task<Entity> RestRetrieve(string schemaName, Guid id, ColumnSet columnSet)
         {
             // Create HttpClient with Compression enabled.
-            using (HttpClient httpClient = new HttpClient(new HttpClientHandler() { AutomaticDecompression = System.Net.DecompressionMethods.GZip }))
+            using (HttpClient httpClient = GetHttpClient())
             {
                 StringBuilder select = new StringBuilder();
                 foreach (string column in columnSet.Columns)
@@ -590,7 +637,7 @@ namespace CrmCross
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // Wait for the web service response.
-                HttpResponseMessage response = await httpClient.GetAsync(ServiceUrl + restEndpoint + ODataAction);
+                HttpResponseMessage response = await httpClient.GetAsync(_crmServerDetails.OrganisationRestEndpointUrl + "/" + ODataAction);
 
                 // Check the response result.
                 if (response.IsSuccessStatusCode)
@@ -624,7 +671,7 @@ namespace CrmCross
         public async Task<EntityCollection> RestRetrieveMultiple(string schemaName, ColumnSet columnSet)
         {
             // Create HttpClient with Compression enabled.
-            using (HttpClient httpClient = new HttpClient(new HttpClientHandler() { AutomaticDecompression = System.Net.DecompressionMethods.GZip }))
+            using (HttpClient httpClient = GetHttpClient())
             {
                 StringBuilder select = new StringBuilder();
                 foreach (string column in columnSet.Columns)
@@ -642,7 +689,7 @@ namespace CrmCross
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // Wait for the web service response.
-                HttpResponseMessage response = await httpClient.GetAsync(ServiceUrl + restEndpoint + ODataAction);
+                HttpResponseMessage response = await httpClient.GetAsync(_crmServerDetails.OrganisationRestEndpointUrl + "/" + ODataAction);
 
                 // Check the response result.
                 if (response.IsSuccessStatusCode)
@@ -684,7 +731,8 @@ namespace CrmCross
         public async Task RestUpdate(Entity entity)
         {
             // Create HttpClient with Compression enabled.
-            using (HttpClient httpClient = new HttpClient(new HttpClientHandler() { AutomaticDecompression = System.Net.DecompressionMethods.GZip }))
+
+            using (HttpClient httpClient = GetHttpClient())
             {
                 DataContractJsonSerializer jasonSerializer = new DataContractJsonSerializer(entity.GetType());
                 MemoryStream ms = new MemoryStream();
@@ -702,12 +750,17 @@ namespace CrmCross
                 httpClient.DefaultRequestHeaders.Add("X-HTTP-Method", "MERGE");
 
                 // Use PostAsync to Post data.
-                HttpResponseMessage response = await httpClient.PostAsync(ServiceUrl + restEndpoint + ODataAction, content);
+                HttpResponseMessage response = await httpClient.PostAsync(_crmServerDetails.OrganisationRestEndpointUrl + "/" + ODataAction, content);
 
                 // Check the response result.
                 if (!response.IsSuccessStatusCode)
                     throw new Exception("REST Update failed.");
             }
+        }
+
+        private HttpClient GetHttpClient()
+        {
+            return _httpClientFactory.GetHttpClient();
         }
         #endregion
 
@@ -716,26 +769,26 @@ namespace CrmCross
         // To make this project Xamarin compatible, you need to comment out this method.
         //public async Task EnableProxyTypes()
         //{
-            //List<TypeInfo> typeList = new List<TypeInfo>();
-            //// Obtain folder of executing application.
-            //var folder = Package.Current.InstalledLocation;
-            //foreach (var file in await folder.GetFilesAsync())
-            //{
-            //    // not only .dll but .exe also contains types.
-            //    if (file.FileType == ".dll" || file.FileType == ".exe")
-            //    {
-            //        var assemblyName = new AssemblyName(file.DisplayName);
-            //        var assembly = Assembly.Load(assemblyName);
-            //        foreach (TypeInfo type in assembly.DefinedTypes)
-            //        {
-            //            // Store only CRM Entities.
-            //            if (type.BaseType == typeof(Entity))
-            //                typeList.Add(type);
-            //        }
-            //    }
-            //}
-            //types = typeList.ToArray();
-       // }
+        //List<TypeInfo> typeList = new List<TypeInfo>();
+        //// Obtain folder of executing application.
+        //var folder = Package.Current.InstalledLocation;
+        //foreach (var file in await folder.GetFilesAsync())
+        //{
+        //    // not only .dll but .exe also contains types.
+        //    if (file.FileType == ".dll" || file.FileType == ".exe")
+        //    {
+        //        var assemblyName = new AssemblyName(file.DisplayName);
+        //        var assembly = Assembly.Load(assemblyName);
+        //        foreach (TypeInfo type in assembly.DefinedTypes)
+        //        {
+        //            // Store only CRM Entities.
+        //            if (type.BaseType == typeof(Entity))
+        //                typeList.Add(type);
+        //        }
+        //    }
+        //}
+        //types = typeList.ToArray();
+        // }
 
         /// <summary>
         /// Create HTTPRequest and returns the HTTPRequestMessage.
@@ -754,7 +807,7 @@ namespace CrmCross
             if (TimeoutInSeconds > 0)
                 httpClient.Timeout = new TimeSpan(0, 0, 0, TimeoutInSeconds, 0);
             // Finish setting up the HTTP request.
-            HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, ServiceUrl + webEndpoint);
+            HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, _crmServerDetails.OrganisationWebEndpointUrl);
             req.Headers.Add("SOAPAction", SOAPAction);
             req.Method = HttpMethod.Post;
             req.Content = new StringContent(content);
@@ -784,11 +837,13 @@ namespace CrmCross
             sb.Append("</s:Header>");
             return sb.ToString();
         }
+
         private OrganizationServiceFault RestoreError(HttpResponseMessage httpResponse)
         {
             XDocument xdoc = XDocument.Parse(httpResponse.Content.ReadAsStringAsync().Result, LoadOptions.None);
             return OrganizationServiceFault.LoadFromXml(xdoc.Descendants(Util.ns.a + "OrganizationServiceFault").First());
         }
+
         static internal Entity ConvertToEarlyBound(Entity entity)
         {
             if (types == null)
@@ -802,14 +857,13 @@ namespace CrmCross
                     MakeGenericMethod(currentType.AsType()).Invoke(entity, null);
         }
 
-        #endregion helpercode
-
         protected virtual async Task<string> GetAccessToken()
         {
             var tokenResult = await _authenticationTokenProvider.GetAuthenticateTokenAsync();
             return tokenResult.AccessToken;
         }
 
+        #endregion helpercode
 
     }
 
@@ -1178,7 +1232,7 @@ namespace CrmCross
                     return (T)this.Attributes[attributeLogicalName];
                 }
                 catch (Exception)
-                {                
+                {
                     return default(T);
                 }
             }
