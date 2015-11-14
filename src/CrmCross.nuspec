@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>CrmCross</id>
+    <version>$version$</version>
+    <title>CrmCross</title>
+    <description>A cross platform implementation of the Microsoft Dynamics SDK. You can now use the Orgnaization Service from PCL, Xamarin MonoTouch, and MonoDroid projects!</description>
+    <authors>Darrell Tunnell</authors>
+    <owners>Darrell Tunnell</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <language>en-gb</language>
+    <projectUrl>https://bitbucket.org/dazinator/crmcross</projectUrl>
+    <copyright>Copyright � Darrell Tunnell 2015</copyright>
+    <releaseNotes>
+      See here for latest release notes: https://bitbucket.org/dazinator/crmcross/downloads
+    </releaseNotes>
+    <licenseUrl>https://bitbucket.org/dazinator/crmcross/raw/d425f3e4e9b1e818f35a98ac636ed67d0f77e156/LICENSE</licenseUrl>
+    <tags>Dynamics Xrm Xamarin PCL Android MonoDroid iOS MonoTouch CRM SDK</tags>
+    <dependencies>
+      <group>
+        <dependency id="Microsoft.IdentityModel.Clients.ActiveDirectory" version="3.5.208051316-alpha" />
+        <dependency id="Newtonsoft.Json" version="7.0.1" />
+      </group>
+      <group targetFramework="MonoAndroid5">
+        <dependency id="modernhttpclient" version="2.4.2" />     
+      </group> 
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="PortableCrmSdk\bin\Release\CrmCross.dll" target="lib" />
+
+    <!-- droid -->  
+    <file src="PortableCrmSdk.Android\bin\Release\CrmCross.Android.dll" target="lib\MonoAndroid\CrmCross.Android.dll" />
+
+  </files>
+</package>

@@ -20,6 +20,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{483F62B3-642C-497B-A4EA-0984F564A1BE}"
 	ProjectSection(SolutionItems) = preProject
 		Crm Online Setup Instructions.txt = Crm Online Setup Instructions.txt
+		CrmCross.nuspec = CrmCross.nuspec
 		README.txt = README.txt
 	EndProjectSection
 EndProject
