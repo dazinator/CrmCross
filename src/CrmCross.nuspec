@@ -30,7 +30,7 @@
     <file src="PortableCrmSdk\bin\Release\CrmCross.dll" target="lib" />
 
     <!-- droid -->  
-    <file src="PortableCrmSdk.Android\bin\Release\CrmCross.Android.dll" target="lib\MonoAndroid\CrmCross.Android.dll" />
+    <file src="PortableCrmSdk.Android\bin\Release\CrmCross.Android.dll" target="lib\MonoAndroid5\CrmCross.Android.dll" />
 
   </files>
 </package>
