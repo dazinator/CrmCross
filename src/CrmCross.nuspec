@@ -32,5 +32,9 @@
     <!-- droid -->  
     <file src="PortableCrmSdk.Android\bin\Release\CrmCross.Android.dll" target="lib\MonoAndroid5\CrmCross.Android.dll" />
 
+    <!-- portable -->
+    <file src="PortableCrmSdk\bin\Release\CrmCross.dll" target="lib\portable-net45+netcore45+wpa81+MonoAndroid10+MonoTouch10\CrmCross.dll" />
+
+    
   </files>
 </package>

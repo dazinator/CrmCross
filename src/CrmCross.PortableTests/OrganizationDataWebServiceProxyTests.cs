@@ -46,7 +46,7 @@ namespace CrmCross.Tests
             this.RunOnMainThread(() =>
             {
                 var authDetails = GetAuthenticationDetailsProvider();
-                authDetails.CrmServerDetails.CrmWebsiteUrl = new Uri(crmWebsiteUrl);
+               // authDetails.CrmServerDetails.CrmWebsiteUrl = new Uri(crmWebsiteUrl);
 
                 var fileSystem = GetFileSystem();
                 var password = TestConfig.GetPassword(fileSystem);
