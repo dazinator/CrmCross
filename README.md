@@ -1,4 +1,4 @@
-# A Portable implementation of the Dynamics CRM SDK
+# A Cross Platform Dynamics Crm SDK.
 
 [This NuGet package](https://www.nuget.org/packages/CrmCross/) allows you to Authenticate with, and use the Dynamics CRM Organisation Service from your Xamarin projects!
 
