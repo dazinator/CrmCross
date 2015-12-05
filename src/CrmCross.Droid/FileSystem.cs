@@ -15,6 +15,11 @@ namespace CrmCross.Droid
 {
     public class FileSystem : IFileSystem
     {
+        public bool Exists(string filePath)
+        {
+            return System.IO.File.Exists(filePath);
+        }
+
         public string ReadAllText(string path)
         {
             return System.IO.File.ReadAllText(path);

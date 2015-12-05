@@ -51,8 +51,13 @@ namespace CrmCross.Tests
         /// <returns></returns>
         public static string GetPassword(IFileSystem fileSystem)
         {
-            var password = fileSystem.ReadAllText(PathToPasswordTextFile);
-            return password;         
+            if (fileSystem.Exists(PathToPasswordTextFile))
+            {
+                var password = fileSystem.ReadAllText(PathToPasswordTextFile);
+                return password;
+            }
+
+            return string.Empty;
         }
 
 

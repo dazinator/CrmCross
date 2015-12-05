@@ -22,10 +22,10 @@ namespace CrmCross.Droid
     [Activity(Label = "CrmCross.Droid", MainLauncher = true, Icon = "@drawable/icon")]
     public class LoginActivity : Activity
     {
-             
+
 
         private IAuthenticationTokenProvider _authTokenProvider = null;
-        private IAuthenticationDetailsProvider _authDetailsProvider = null;       
+        private IAuthenticationDetailsProvider _authDetailsProvider = null;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -59,7 +59,19 @@ namespace CrmCross.Droid
         async void secondButton_Click(object sender, EventArgs e)
         {
             var fileSystem = new FileSystem();
-            await LogInUser(TestConfig.Username, TestConfig.GetPassword(fileSystem));
+            var password = TestConfig.GetPassword(fileSystem);
+
+            if (string.IsNullOrEmpty(password))
+            {
+                var builder = new AlertDialog.Builder(this);
+                builder.SetMessage(string.Format("Please push a txt file to this device, containing the password to use for the account: {0}. This is to keep the password outside of source control. You can use: adb push 'crmcrosspassword.txt' '/mnt/sdcard/crmcrosspassword.txt' ", TestConfig.Username));
+                builder.SetCancelable(true);
+                var dialog = builder.Create();
+                dialog.Show();
+                return;
+            }
+
+            await LogInUser(TestConfig.Username, password);
         }
 
         async void loginButton_click(object sender, EventArgs e)
@@ -68,9 +80,9 @@ namespace CrmCross.Droid
         }
 
         private async Task LogInUser(string username, string password)
-        {
-            // Before we attempt token aquisition, set a username and password.
-            _authDetailsProvider.UserCredentials = new UsernamePasswordCredential(username, password);          
+        {          
+
+            _authDetailsProvider.UserCredentials = new UsernamePasswordCredential(username, password);
 
             var tokenResult = await _authTokenProvider.GetAuthenticateTokenAsync();
             var accessTokenText = this.FindViewById<TextView>(Resource.Id.accessToken);

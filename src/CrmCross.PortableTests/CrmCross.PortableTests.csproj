@@ -35,7 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\PortableCrmSdk\CrmCross.csproj">
+    <ProjectReference Include="..\CrmCross\CrmCross.csproj">
       <Project>{75d3e0e0-48e6-484f-be3e-2d16a6a8c6e4}</Project>
       <Name>CrmCross</Name>
     </ProjectReference>

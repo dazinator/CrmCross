@@ -8,6 +8,7 @@ namespace CrmCross.Tests
 {
     public interface IFileSystem
     {
-         string ReadAllText(string path);
+        string ReadAllText(string path);
+        bool Exists(string filePath);
     }
 }
