@@ -52,7 +52,7 @@ namespace CrmCross
         #region class members
 
         private IAuthenticationTokenProvider _authenticationTokenProvider = null;
-        private IHttpClientFactory _httpClientFactory = null;    
+        private IHttpClientFactory _httpClientFactory = null;
         private CrmServerDetails _crmServerDetails = null;
 
         // public string ServiceUrl;
@@ -194,7 +194,7 @@ namespace CrmCross
                 }
                 else
                 {
-                    OrganizationServiceFault fault = RestoreError(httpResponse);
+                    OrganizationServiceFault fault = RestoreFault(httpResponse);
                     if (!String.IsNullOrEmpty(fault.Message))
                         throw fault;
                     else
@@ -240,7 +240,7 @@ namespace CrmCross
                 }
                 else
                 {
-                    OrganizationServiceFault fault = RestoreError(httpResponse);
+                    OrganizationServiceFault fault = RestoreFault(httpResponse);
                     if (!String.IsNullOrEmpty(fault.Message))
                         throw fault;
                     else
@@ -283,7 +283,7 @@ namespace CrmCross
                 }
                 else
                 {
-                    OrganizationServiceFault fault = RestoreError(httpResponse);
+                    OrganizationServiceFault fault = RestoreFault(httpResponse);
                     if (!String.IsNullOrEmpty(fault.Message))
                         throw fault;
                     else
@@ -329,7 +329,7 @@ namespace CrmCross
                 }
                 else
                 {
-                    OrganizationServiceFault fault = RestoreError(httpResponse);
+                    OrganizationServiceFault fault = RestoreFault(httpResponse);
                     if (!String.IsNullOrEmpty(fault.Message))
                         throw fault;
                     else
@@ -376,7 +376,7 @@ namespace CrmCross
                 }
                 else
                 {
-                    OrganizationServiceFault fault = RestoreError(httpResponse);
+                    OrganizationServiceFault fault = RestoreFault(httpResponse);
                     if (!String.IsNullOrEmpty(fault.Message))
                         throw fault;
                     else
@@ -428,7 +428,7 @@ namespace CrmCross
                 }
                 else
                 {
-                    OrganizationServiceFault fault = RestoreError(httpResponse);
+                    OrganizationServiceFault fault = RestoreFault(httpResponse);
                     if (!String.IsNullOrEmpty(fault.Message))
                         throw fault;
                     else
@@ -482,7 +482,7 @@ namespace CrmCross
                 }
                 else
                 {
-                    OrganizationServiceFault fault = RestoreError(httpResponse);
+                    OrganizationServiceFault fault = RestoreFault(httpResponse);
                     if (!String.IsNullOrEmpty(fault.Message))
                         throw fault;
                     else
@@ -523,7 +523,7 @@ namespace CrmCross
                 }
                 else
                 {
-                    OrganizationServiceFault fault = RestoreError(httpResponse);
+                    OrganizationServiceFault fault = RestoreFault(httpResponse);
                     if (!String.IsNullOrEmpty(fault.Message))
                         throw fault;
                     else
@@ -602,7 +602,7 @@ namespace CrmCross
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // Use DeleteAsync to Post data.
-                HttpResponseMessage response = await httpClient.DeleteAsync(_crmServerDetails.OrganisationRestEndpointUrl +  "/" + ODataAction);
+                HttpResponseMessage response = await httpClient.DeleteAsync(_crmServerDetails.OrganisationRestEndpointUrl + "/" + ODataAction);
 
                 if (!response.IsSuccessStatusCode)
                     throw new Exception("REST Delete failed.");
@@ -838,11 +838,46 @@ namespace CrmCross
             return sb.ToString();
         }
 
-        private OrganizationServiceFault RestoreError(HttpResponseMessage httpResponse)
+        private OrganizationServiceFault RestoreFault(HttpResponseMessage httpResponse)
         {
-            XDocument xdoc = XDocument.Parse(httpResponse.Content.ReadAsStringAsync().Result, LoadOptions.None);
-            return OrganizationServiceFault.LoadFromXml(xdoc.Descendants(Util.ns.a + "OrganizationServiceFault").First());
+            // Has to have length to be XML
+            var responseContent = httpResponse.Content.ReadAsStringAsync().Result;
+            bool parseAsXml = false;
+
+            if (!string.IsNullOrEmpty(responseContent))
+            {
+                // If it starts with a < after trimming then it probably is XML
+                // Need to do an empty check again in case the string is all white space.
+                var trimmedData = responseContent.TrimStart();
+                if (string.IsNullOrEmpty(trimmedData))
+                {
+                    parseAsXml = false;
+                }
+
+                if (trimmedData[0] == '<')
+                {
+                    parseAsXml = true;
+                }
+            }
+
+            if (parseAsXml)
+            {
+                try
+                {
+                    XDocument xdoc = XDocument.Parse(responseContent, LoadOptions.None);
+                    return OrganizationServiceFault.LoadFromXml(xdoc.Descendants(Util.ns.a + "OrganizationServiceFault").First());
+                }
+                catch (System.Xml.XmlException)
+                {
+                    // invalid xml.
+                }
+            }
+
+            OrganizationServiceFault orgFault = new OrganizationServiceFault();
+            orgFault.Message = responseContent;
+            return orgFault;
         }
+
 
         static internal Entity ConvertToEarlyBound(Entity entity)
         {
