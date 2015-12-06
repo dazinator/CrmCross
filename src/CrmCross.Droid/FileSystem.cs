@@ -22,7 +22,15 @@ namespace CrmCross.Droid
 
         public string ReadAllText(string path)
         {
-            return System.IO.File.ReadAllText(path);
+            try
+            {
+                return System.IO.File.ReadAllText(path);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+          
         }
     }
 }

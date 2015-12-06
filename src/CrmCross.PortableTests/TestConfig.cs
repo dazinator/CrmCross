@@ -22,7 +22,7 @@ namespace CrmCross.Tests
         /// <summary>
         /// This is a ClientID that was given once I registered a "Native" application via the Azure Management Portal.
         /// </summary>
-        public const string NativeClientId = "d69a4eb7-ace3-4d62-888e-0259d4d792a7";
+        public const string NativeClientId = "250a1307-85df-4f0c-9589-1e4a35c6b473";
 
         /// <summary>
         /// This is the Redirect Url that I entered when registering the application through the Azure Management Portal.
@@ -32,7 +32,7 @@ namespace CrmCross.Tests
         /// <summary>
         /// This is the Url of the Dynamics CRM website.
         /// </summary>
-        public const string Crm_2013_Online_Org_Url = "https://crmadotrial9.crm4.dynamics.com";
+        public const string Crm_2013_Online_Org_Url = "https://crmcrosstrial1.crm4.dynamics.com";
 
         ///// <summary>
         ///// I am delibrately storing the password for the user account outside of source control. Change this to the path to a file that contains the password.
@@ -42,7 +42,7 @@ namespace CrmCross.Tests
         /// <summary>
         /// This is the Username of the User that will be authenticating with Dynamics CRM (we will be obtaining an access token for).
         /// </summary>
-        public const string Username = "crmado@crmadotrial9.onmicrosoft.com";
+        public const string Username = "darrell@crmcrosstrial1.onmicrosoft.com";
 
         /// <summary>
         /// This loads the password for the user that we will use when authenticating the user with Dynamics CRM to obtain the access token.
