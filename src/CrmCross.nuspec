@@ -27,13 +27,13 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="PortableCrmSdk\bin\Release\CrmCross.dll" target="lib" />
+    <file src="CrmCross\bin\Release\CrmCross.dll" target="lib" />
 
     <!-- droid -->  
-    <file src="PortableCrmSdk.Android\bin\Release\CrmCross.Android.dll" target="lib\MonoAndroid5\CrmCross.Android.dll" />
+    <file src="CrmCross.Android\bin\Release\CrmCross.Android.dll" target="lib\MonoAndroid5\CrmCross.Android.dll" />
 
     <!-- portable -->
-    <file src="PortableCrmSdk\bin\Release\CrmCross.dll" target="lib\portable-net45+netcore45+wpa81+MonoAndroid10+MonoTouch10\CrmCross.dll" />
+    <file src="CrmCross\bin\Release\CrmCross.dll" target="lib\portable-net45+netcore45+wpa81+MonoAndroid10+MonoTouch10\CrmCross.dll" />
 
     
   </files>
