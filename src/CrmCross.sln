@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrmCross", "CrmCross\CrmCross.csproj", "{75D3E0E0-48E6-484F-BE3E-2D16A6A8C6E4}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{716A9AE2-822A-4E5B-AB4A-33DBA4873591}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrmCross.Android", "CrmCross.Android\CrmCross.Android.csproj", "{90F2951D-3A0A-46A0-AECB-72966EDC75BF}"
@@ -23,6 +21,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		CrmCross.nuspec = CrmCross.nuspec
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrmCross.Xrm", "CrmCross.Xrm\CrmCross.Xrm.csproj", "{46365D4B-A8A9-48D4-A3A1-C4476A7DB0F0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrmCross.Client", "CrmCross.Client\CrmCross.Client.csproj", "{F55E68A0-FED5-46AD-9FD1-23BFFEF293EA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,14 +35,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{75D3E0E0-48E6-484F-BE3E-2D16A6A8C6E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{75D3E0E0-48E6-484F-BE3E-2D16A6A8C6E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{75D3E0E0-48E6-484F-BE3E-2D16A6A8C6E4}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{75D3E0E0-48E6-484F-BE3E-2D16A6A8C6E4}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{75D3E0E0-48E6-484F-BE3E-2D16A6A8C6E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{75D3E0E0-48E6-484F-BE3E-2D16A6A8C6E4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{75D3E0E0-48E6-484F-BE3E-2D16A6A8C6E4}.Release|ARM.ActiveCfg = Release|Any CPU
-		{75D3E0E0-48E6-484F-BE3E-2D16A6A8C6E4}.Release|x86.ActiveCfg = Release|Any CPU
 		{90F2951D-3A0A-46A0-AECB-72966EDC75BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{90F2951D-3A0A-46A0-AECB-72966EDC75BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90F2951D-3A0A-46A0-AECB-72966EDC75BF}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -77,6 +71,30 @@ Global
 		{70118079-0638-43B0-8768-D14E48DDE7EC}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{70118079-0638-43B0-8768-D14E48DDE7EC}.Release|ARM.ActiveCfg = Release|Any CPU
 		{70118079-0638-43B0-8768-D14E48DDE7EC}.Release|x86.ActiveCfg = Release|Any CPU
+		{46365D4B-A8A9-48D4-A3A1-C4476A7DB0F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46365D4B-A8A9-48D4-A3A1-C4476A7DB0F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46365D4B-A8A9-48D4-A3A1-C4476A7DB0F0}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{46365D4B-A8A9-48D4-A3A1-C4476A7DB0F0}.Debug|ARM.Build.0 = Debug|Any CPU
+		{46365D4B-A8A9-48D4-A3A1-C4476A7DB0F0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{46365D4B-A8A9-48D4-A3A1-C4476A7DB0F0}.Debug|x86.Build.0 = Debug|Any CPU
+		{46365D4B-A8A9-48D4-A3A1-C4476A7DB0F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46365D4B-A8A9-48D4-A3A1-C4476A7DB0F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46365D4B-A8A9-48D4-A3A1-C4476A7DB0F0}.Release|ARM.ActiveCfg = Release|Any CPU
+		{46365D4B-A8A9-48D4-A3A1-C4476A7DB0F0}.Release|ARM.Build.0 = Release|Any CPU
+		{46365D4B-A8A9-48D4-A3A1-C4476A7DB0F0}.Release|x86.ActiveCfg = Release|Any CPU
+		{46365D4B-A8A9-48D4-A3A1-C4476A7DB0F0}.Release|x86.Build.0 = Release|Any CPU
+		{F55E68A0-FED5-46AD-9FD1-23BFFEF293EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F55E68A0-FED5-46AD-9FD1-23BFFEF293EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F55E68A0-FED5-46AD-9FD1-23BFFEF293EA}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{F55E68A0-FED5-46AD-9FD1-23BFFEF293EA}.Debug|ARM.Build.0 = Debug|Any CPU
+		{F55E68A0-FED5-46AD-9FD1-23BFFEF293EA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F55E68A0-FED5-46AD-9FD1-23BFFEF293EA}.Debug|x86.Build.0 = Debug|Any CPU
+		{F55E68A0-FED5-46AD-9FD1-23BFFEF293EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F55E68A0-FED5-46AD-9FD1-23BFFEF293EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F55E68A0-FED5-46AD-9FD1-23BFFEF293EA}.Release|ARM.ActiveCfg = Release|Any CPU
+		{F55E68A0-FED5-46AD-9FD1-23BFFEF293EA}.Release|ARM.Build.0 = Release|Any CPU
+		{F55E68A0-FED5-46AD-9FD1-23BFFEF293EA}.Release|x86.ActiveCfg = Release|Any CPU
+		{F55E68A0-FED5-46AD-9FD1-23BFFEF293EA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

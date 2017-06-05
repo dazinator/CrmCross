@@ -53,7 +53,7 @@ namespace CrmCross.Tests
                     var fileSystem = GetFileSystem();
                     var password = TestConfig.GetPassword(fileSystem);
 
-                    authDetails.UserCredentials = new UsernamePasswordCredential(userName, password);
+                    authDetails.UserCredentials = new UsernamePasswordCredential(userName);
 
                     var httpClientFactory = GetHttpClientFactory();
                     var tokenProvider = (IAuthenticationTokenProvider)new AdalAuthenticationTokenProvider(authDetails, httpClientFactory);

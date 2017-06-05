@@ -4,7 +4,7 @@
     <id>CrmCross</id>
     <version>$version$</version>
     <title>CrmCross</title>
-    <description>A cross platform implementation of the Microsoft Dynamics SDK. You can now use the Orgnaization Service from PCL, Xamarin MonoTouch, and MonoDroid projects!</description>
+    <description>A cross platform implementation of the Microsoft Dynamics SDK. You can now use the Orgnaization Service from Multiple platforms, Xamarin Android, IOS and .NET or any platforms supporting netstandard 1.4!</description>
     <authors>Darrell Tunnell</authors>
     <owners>Darrell Tunnell</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -15,26 +15,34 @@
       See here for latest release notes: https://bitbucket.org/dazinator/crmcross/downloads
     </releaseNotes>
     <licenseUrl>https://bitbucket.org/dazinator/crmcross/raw/d425f3e4e9b1e818f35a98ac636ed67d0f77e156/LICENSE</licenseUrl>
-    <tags>Dynamics Xrm Xamarin PCL Android MonoDroid iOS MonoTouch CRM SDK</tags>
+    <tags>Dynamics Xrm Portable Client SDK based on NetStandard.</tags>
     <dependencies>
       <group>
-        <dependency id="Microsoft.IdentityModel.Clients.ActiveDirectory" version="3.5.208051316-alpha" />
-        <dependency id="Newtonsoft.Json" version="7.0.1" />
+        <dependency id="Microsoft.IdentityModel.Clients.ActiveDirectory" version="3.13.9" />
+        <dependency id="Newtonsoft.Json" version="10.0.2" />
       </group>
-      <group targetFramework="MonoAndroid5">
+      <group targetFramework="MonoAndroid">
         <dependency id="modernhttpclient" version="2.4.2" />     
-      </group> 
+      </group>
+      <group targetFramework="MonoTouch">
+        <dependency id="modernhttpclient" version="2.4.2" />
+      </group>
+      <group targetFramework="xamarinios">
+        <dependency id="modernhttpclient" version="2.4.2" />
+      </group>
+      <group targetFramework="xamarinmac">
+        <dependency id="modernhttpclient" version="2.4.2" />
+      </group>
     </dependencies>
   </metadata>
   <files>
-    <file src="CrmCross\bin\Release\CrmCross.dll" target="lib" />
+    <!-- netstandard 1.4 -->
+    <file src="CrmCross.Client\bin\Release\CrmCross.Client.dll" target="lib\netstandard1.4\CrmCross.Client.dll" />
+    <file src="CrmCross.Client\bin\Release\CrmCross.Xrm.dll" target="lib\netstandard1.4\CrmCross.Xrm.dll" />
 
-    <!-- droid -->  
+    <!-- droid -->
     <file src="CrmCross.Android\bin\Release\CrmCross.Android.dll" target="lib\MonoAndroid5\CrmCross.Android.dll" />
 
-    <!-- portable -->
-    <file src="CrmCross\bin\Release\CrmCross.dll" target="lib\portable-net45+netcore45+wpa81+MonoAndroid10+MonoTouch10\CrmCross.dll" />
 
-    
   </files>
 </package>

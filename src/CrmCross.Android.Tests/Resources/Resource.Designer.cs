@@ -26,29 +26,7 @@ namespace CrmCross.Android.Tests
 		
 		public static void UpdateIdValues()
 		{
-			global::CrmCross.Android.Resource.Id.OptionHostName = global::CrmCross.Android.Tests.Resource.Id.OptionHostName;
-			global::CrmCross.Android.Resource.Id.OptionPort = global::CrmCross.Android.Tests.Resource.Id.OptionPort;
-			global::CrmCross.Android.Resource.Id.OptionRemoteServer = global::CrmCross.Android.Tests.Resource.Id.OptionRemoteServer;
-			global::CrmCross.Android.Resource.Id.OptionsButton = global::CrmCross.Android.Tests.Resource.Id.OptionsButton;
-			global::CrmCross.Android.Resource.Id.ResultFullName = global::CrmCross.Android.Tests.Resource.Id.ResultFullName;
-			global::CrmCross.Android.Resource.Id.ResultMessage = global::CrmCross.Android.Tests.Resource.Id.ResultMessage;
-			global::CrmCross.Android.Resource.Id.ResultResultState = global::CrmCross.Android.Tests.Resource.Id.ResultResultState;
-			global::CrmCross.Android.Resource.Id.ResultRunSingleMethodTest = global::CrmCross.Android.Tests.Resource.Id.ResultRunSingleMethodTest;
-			global::CrmCross.Android.Resource.Id.ResultStackTrace = global::CrmCross.Android.Tests.Resource.Id.ResultStackTrace;
-			global::CrmCross.Android.Resource.Id.ResultsFailed = global::CrmCross.Android.Tests.Resource.Id.ResultsFailed;
-			global::CrmCross.Android.Resource.Id.ResultsId = global::CrmCross.Android.Tests.Resource.Id.ResultsId;
-			global::CrmCross.Android.Resource.Id.ResultsIgnored = global::CrmCross.Android.Tests.Resource.Id.ResultsIgnored;
-			global::CrmCross.Android.Resource.Id.ResultsInconclusive = global::CrmCross.Android.Tests.Resource.Id.ResultsInconclusive;
-			global::CrmCross.Android.Resource.Id.ResultsMessage = global::CrmCross.Android.Tests.Resource.Id.ResultsMessage;
-			global::CrmCross.Android.Resource.Id.ResultsPassed = global::CrmCross.Android.Tests.Resource.Id.ResultsPassed;
-			global::CrmCross.Android.Resource.Id.ResultsResult = global::CrmCross.Android.Tests.Resource.Id.ResultsResult;
-			global::CrmCross.Android.Resource.Id.RunTestsButton = global::CrmCross.Android.Tests.Resource.Id.RunTestsButton;
-			global::CrmCross.Android.Resource.Id.TestSuiteListView = global::CrmCross.Android.Tests.Resource.Id.TestSuiteListView;
 			global::CrmCross.Android.Resource.Id.agentWebView = global::CrmCross.Android.Tests.Resource.Id.agentWebView;
-			global::CrmCross.Android.Resource.Layout.options = global::CrmCross.Android.Tests.Resource.Layout.options;
-			global::CrmCross.Android.Resource.Layout.results = global::CrmCross.Android.Tests.Resource.Layout.results;
-			global::CrmCross.Android.Resource.Layout.test_result = global::CrmCross.Android.Tests.Resource.Layout.test_result;
-			global::CrmCross.Android.Resource.Layout.test_suite = global::CrmCross.Android.Tests.Resource.Layout.test_suite;
 			global::CrmCross.Android.Resource.Layout.WebAuthenticationBroker = global::CrmCross.Android.Tests.Resource.Layout.WebAuthenticationBroker;
 			global::CrmCross.Android.Resource.String.ApplicationName = global::CrmCross.Android.Tests.Resource.String.ApplicationName;
 			global::CrmCross.Android.Resource.String.Hello = global::CrmCross.Android.Tests.Resource.String.Hello;

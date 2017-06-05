@@ -1,13 +1,14 @@
 ﻿using CrmCross.Http;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
+
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace CrmCross.Authentication
-{ 
-        
+{
+
     /// <summary>
     /// Provides authentication tokens using ADAL.
     /// </summary>

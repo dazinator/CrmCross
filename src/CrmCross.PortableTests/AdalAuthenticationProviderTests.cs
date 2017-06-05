@@ -41,45 +41,45 @@ namespace CrmCross.Tests
 
         }    
 
-        [TestCase(TestConfig.Crm_2013_Online_Org_Url, TestConfig.Username)]
-        public void Can_Get_Auth_Token_Using_Username_And_Password(string crmWebsiteUrl, string userName)
-        {
+        //[TestCase(TestConfig.Crm_2013_Online_Org_Url, TestConfig.Username)]
+        //public void Can_Get_Auth_Token_Using_Username_And_Password(string crmWebsiteUrl, string userName)
+        //{
 
-            var y = new AutoResetEvent(false);
-            IAuthenticationTokenResult result = null;
+        //    var y = new AutoResetEvent(false);
+        //    IAuthenticationTokenResult result = null;
 
-            this.RunOnMainThread(() =>
-            {
-                var authDetails = GetAuthenticationDetailsProvider();
-                authDetails.CrmServerDetails.CrmWebsiteUrl = new Uri(crmWebsiteUrl);
+        //    this.RunOnMainThread(() =>
+        //    {
+        //        var authDetails = GetAuthenticationDetailsProvider();
+        //        authDetails.CrmServerDetails.CrmWebsiteUrl = new Uri(crmWebsiteUrl);
 
-                var fileSystem = GetFileSystem();
-                var password = TestConfig.GetPassword(fileSystem);
+        //        var fileSystem = GetFileSystem();
+        //        var password = TestConfig.GetPassword(fileSystem);
 
-                authDetails.UserCredentials = new UsernamePasswordCredential(userName, password);
+        //        authDetails.UserCredentials = new UsernamePasswordCredential(userName, password);
 
-                var httpClientFactory = GetHttpClientFactory();
-                var tokenProvider = (IAuthenticationTokenProvider)new AdalAuthenticationTokenProvider(authDetails, httpClientFactory);
+        //        var httpClientFactory = GetHttpClientFactory();
+        //        var tokenProvider = (IAuthenticationTokenProvider)new AdalAuthenticationTokenProvider(authDetails, httpClientFactory);
                
 
-                Task.Run(() => tokenProvider.GetAuthenticateTokenAsync())
-                    .ContinueWith((a) => {
-                        result = a.Result;
-                    })
-                .Wait();
-                y.Set();                          
+        //        Task.Run(() => tokenProvider.GetAuthenticateTokenAsync())
+        //            .ContinueWith((a) => {
+        //                result = a.Result;
+        //            })
+        //        .Wait();
+        //        y.Set();                          
 
-            });
+        //    });
 
-            y.WaitOne(new TimeSpan(0, 1, 0));
+        //    y.WaitOne(new TimeSpan(0, 1, 0));
 
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result.Success);
-            Assert.That(result.AccessToken, Is.Not.Null);
-            Assert.That(result.AccessToken, Is.Not.EqualTo(string.Empty));
-            System.Diagnostics.Debug.WriteLine(result.AccessToken);                   
+        //    Assert.That(result, Is.Not.Null);
+        //    Assert.That(result.Success);
+        //    Assert.That(result.AccessToken, Is.Not.Null);
+        //    Assert.That(result.AccessToken, Is.Not.EqualTo(string.Empty));
+        //    System.Diagnostics.Debug.WriteLine(result.AccessToken);                   
 
-        }
+        //}
               
 
         #region Platform Specific Dependencies

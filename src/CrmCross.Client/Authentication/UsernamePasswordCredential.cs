@@ -8,12 +8,11 @@ namespace CrmCross.Authentication
     /// </summary>
     public class UsernamePasswordCredential
     {
-        private string _password;
+       // private string _password;
 
-        public UsernamePasswordCredential(string username, string password)
-        {
-            _password = password;
-            UserCredential = new UserCredential(username, password);
+        public UsernamePasswordCredential(string username)
+        {          
+            UserCredential = new UserCredential(username);
         }
 
         /// <summary>
@@ -27,25 +26,25 @@ namespace CrmCross.Authentication
             }
             set
             {
-                UserCredential = new UserCredential(value, _password);
+                UserCredential = new UserCredential(value);
             }
         }
 
-        /// <summary>
-        /// The password.
-        /// </summary>
-        public string Password
-        {
-            get
-            {
-                return _password;
-            }
-            set
-            {
-                UserCredential = new UserCredential(UserCredential.UserName, value);
-                _password = value;
-            }
-        }
+        ///// <summary>
+        ///// The password.
+        ///// </summary>
+        //public string Password
+        //{
+        //    get
+        //    {
+        //        return UserCredential.Password;
+        //    }
+        //    set
+        //    {
+        //        UserCredential = new UsernamePasswordCredential(UserCredential.Username, value);
+        //        _password = value;
+        //    }
+        //}
 
         /// <summary>
         /// The ADAL UserCredential.

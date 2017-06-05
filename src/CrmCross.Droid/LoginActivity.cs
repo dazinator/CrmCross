@@ -82,7 +82,7 @@ namespace CrmCross.Droid
         private async Task LogInUser(string username, string password)
         {          
 
-            _authDetailsProvider.UserCredentials = new UsernamePasswordCredential(username, password);
+            _authDetailsProvider.UserCredentials = new UsernamePasswordCredential(username);
 
             var tokenResult = await _authTokenProvider.GetAuthenticateTokenAsync();
             var accessTokenText = this.FindViewById<TextView>(Resource.Id.accessToken);
